@@ -7,6 +7,10 @@ import GenerateReceipt from '../screens/GenerateReceipt';
 import ViewCustomers from '../screens/ViewCustomers';
 import Colors from '../constants/colors';
 import { Image } from 'react-native';
+import AddAnimal from '../screens/AddAnimal';
+import AnimalDetails from '../screens/AnimalDetails';
+import CustomerDetails from '../screens/CustomerDetails';
+import SelectServices from '../screens/SelectServices';
 
 
 const Navigator = createStackNavigator({
@@ -18,24 +22,28 @@ const Navigator = createStackNavigator({
     },
     SelectAnimal : {
         screen : SelectAnimal,
-        // navigationOptions : {
-        //     header : null
-        // },
     },
     SelectCustomer : {
         screen: SelectCustomer,
-        // navigationOptions : {
-        //     header : null
-        // },
     },
     GenerateReceipt : {
         screen : GenerateReceipt,
-        
     },
     ViewCustomers : {
       screen : ViewCustomers,
-      
-  },
+    },
+    AddAnimal: {
+      screen : AddAnimal,
+    },
+    AnimalDetails: {
+      screen : AnimalDetails,
+    },
+    CustomerDetails: {
+      screen : CustomerDetails,
+    },
+    SelectServices: {
+      screen : SelectServices,
+    }
 },{
     mode : 'modal',
     defaultNavigationOptions: {

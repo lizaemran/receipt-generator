@@ -49,6 +49,13 @@ const MainPage = (props) => {
             </Text>
             </View>
           </TabComponent>
+          <Text style={styles.customize} onPress={() =>
+                props.navigation.navigate({
+                  routeName: "AddAnimal",
+                })
+              }>
+                Customize
+            </Text>
         </KeyboardAvoidingView>
         <StatusBar style="auto" />
       </View>
@@ -108,6 +115,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
+  },
+  customize: {
+    color: Colors.primary,
+    textAlign: 'center',
   }
 });
 export default MainPage;
