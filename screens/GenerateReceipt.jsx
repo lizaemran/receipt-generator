@@ -5,7 +5,7 @@ import Colors from "../constants/colors";
 import { CUSTOMER } from '../data/CustomerData';
 import { RECEIPTS } from '../data/ReceiptData';
 import Receipt from '../modals/Receipt';
-
+import AsyncStorage from '@react-native-async-storage/async-storage'
 const GenerateReceipt = props => {
   const [discount, setDiscount] = useState('');
   const [discountError, setDiscountError] = useState(false);
@@ -22,17 +22,30 @@ const GenerateReceipt = props => {
   }
   var total =  services?.reduce((acc, cur) => acc + cur.price, 0);
   total = total - Number(discount);
-  const sendReceiptHandler = () => {
+  const sendReceiptHandler = async () => {
     let customerSelected = CUSTOMER.find(c => c.name === customer);
     console.log(customerSelected);
     RECEIPTS.push(new Receipt(Receipt.length + 1, customer, animal, services, discount, total));
+    try {
+      const data = JSON.stringify(RECEIPTS);
+      await AsyncStorage.setItem('Receipts', data);
+      alert('Data successfully saved!')
+    } catch (e) {
+      alert('Failed to save data.')
+    }
     CUSTOMER[customerSelected.id-1].receipts.push({
       'animal': animal,
       'services' : services,
       'discount' : Number(discount),
       'total' : total
+    });
+    try {
+      const data = JSON.stringify(CUSTOMER);
+      await AsyncStorage.setItem('Customers', data);
+      alert('Data successfully saved!')
+    } catch (e) {
+      alert('Failed to save data.')
     }
-    );
     props.navigation.navigate({routeName: 'ViewCustomers'});
   }
   return (
@@ -44,6 +57,7 @@ const GenerateReceipt = props => {
         <Text>Animal: {animal}</Text>
         <Text>Customer: {customer}</Text>
         <Text>Services: {services?.length}</Text>
+        <Text></Text>
         {services.map((s, index) => 
           <View key={index} style={styles.servicesRow}>
               <Text>{s.title}</Text>
