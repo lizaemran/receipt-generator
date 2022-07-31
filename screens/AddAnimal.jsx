@@ -6,16 +6,16 @@ import { ANIMALS } from '../data/data';
 import AnimalsGridTile from '../components/AnimalsGridTile';
 import Animal from '../modals/Animal';
 import AsyncStorage from '@react-native-async-storage/async-storage'
-
 const AddAnimal = props => {
-  const [animalsData, setAnimalsData] = useState([]);
   useEffect(() => {
     const getData = async () => {
     try {
       const animals = await AsyncStorage.getItem('Animals')
-  
       if (animals !== null) {
-        setAnimalsData(animals);
+        if(ANIMALS.length === 0){
+          let temp = JSON.parse(animals);
+          temp?.map((a) => ANIMALS.push(new Animal(a.id, a.name, a.services)));
+        }
       }
     } catch (e) {
       alert('Failed to load animals data.')
@@ -40,7 +40,7 @@ const AddAnimal = props => {
     else{
       ANIMALS.push(new Animal(ANIMALS.length + 1, animal, []));
         try {
-          const data = JSON.stringify(ANIMALS.length + 1, animal, []);
+          const data = JSON.stringify(ANIMALS);
           await AsyncStorage.setItem('Animals', data);
           alert('Data successfully saved!')
         } catch (e) {
@@ -49,6 +49,16 @@ const AddAnimal = props => {
       Alert.alert('Affirmation', 'Animal added successfully', [{text: 'Okay', style: 'destructive'}]);
       setAnimal('');
     }
+  }
+  const deleteAnimal = async (id) => {
+      ANIMALS.splice(id-1,1);
+        try {
+          const data = JSON.stringify(ANIMALS);
+          await AsyncStorage.setItem('Animals', data);
+          alert('Data successfully saved after deleting!')
+        } catch (e) {
+          alert('Failed to save data.')
+        }
   }
   const renderGridItem = itemData => {
     return <AnimalsGridTile 
@@ -61,6 +71,11 @@ const AddAnimal = props => {
             animalId: itemData.item.id,
         }
       })}
+    onDelete={() => Alert.alert('Confirmation', 'Confirm delete', [{
+      text: "Yes",
+      onPress: deleteAnimal(itemData.item.id),
+      style: "cancel"
+    },{text: 'Cancel', style: 'destructive'}])}
        />;
 };
   return (
@@ -81,8 +96,8 @@ const AddAnimal = props => {
       <View style={styles.Add}>
             <Button title=' + Add Animal' onPress={addAnimal} color={Colors.primary} />
       </View>
-      {animalsData?.length > 0 ? (<FlatList
-        keyExtractor={(item, index) => item.id}
+      {ANIMALS.length > 0 ? (<FlatList
+        keyExtractor={(item, index) => index}
         numColumns={0} 
         data={ANIMALS} 
         renderItem={renderGridItem} />) : (

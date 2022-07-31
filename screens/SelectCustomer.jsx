@@ -13,13 +13,15 @@ const SelectCustomer = props => {
       </View>
       <View>
         {CUSTOMER.map((a) => 
-          <Button key={a.id} title={a.name} onPress={() => props.navigation.navigate({
+          <Text style={styles.name} key={a.id} onPress={() => props.navigation.navigate({
             routeName: 'SelectServices',
             params: {
                 customer: a.name,
                 animal: animal
             }
-          })} style={styles.button}  />
+          })}>
+            {a.name}
+          </Text>
         )}
       </View>
       <StatusBar style='auto' />
@@ -41,8 +43,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  button: {
+  name: {
     marginVertical: 10,
+    width: 200,
+    borderBottomColor: Colors.primary,
+    borderBottomWidth: 2,
+    textAlign: 'center',
+    textTransform: 'capitalize',
+    backgroundColor: 'rgba(59, 114, 237,0.5)',
+    padding: 10,
+    fontSize: 18
   }
 });
 

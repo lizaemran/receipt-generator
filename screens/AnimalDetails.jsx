@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
-import { Text, View, Button , StyleSheet, Dimensions, TextInput, Alert } from 'react-native';
+import { Text, View, Button , StyleSheet, Dimensions, TextInput, Alert, ScrollView } from 'react-native';
 import Colors from '../constants/colors';
 import { ANIMALS } from '../data/data';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 const AnimalDetails = props => {
   const [isAddService, isSetAddService] = useState(false);
   const [service, setService] = useState('');
   const [serviceError, setServiceError] = useState('');
+  const [serviceType, setServiceType] = useState('');
+  const [serviceTypeError, setServiceTypeError] = useState(false);
+  const [serviceSubType, setServiceSubType] = useState('');
+  const [serviceSubTypeError, setServiceSubTypeError] = useState(false);
   const [servicePrice, setServicePrice] = useState('');
-  const [servicePriceError, setServicePriceError] = useState('');
+  const [servicePriceError, setServicePriceError] = useState(false);
   const animal_id =  props.navigation.getParam('animalId');
   const selectedAnimal = ANIMALS.find(a => a.id === animal_id);
   const serviceHandler = (text) => {
@@ -18,6 +23,22 @@ const AnimalDetails = props => {
     }
     setService(text.replace('<', ''));
   }
+  const serviceTypeHandler = (text) => {
+    if(text === 0){
+      setServiceTypeError(true);
+    }else{
+      setServiceTypeError(false);
+    }
+    setServiceType(text.replace('<', 0));
+  }
+  const serviceSubTypeHandler = (text) => {
+    if(text === 0){
+      setServiceSubTypeError(true);
+    }else{
+      setServiceSubTypeError(false);
+    }
+    setServiceSubType(text.replace('<', 0));
+  }
   const servicePriceHandler = (text) => {
     if(text === 0){
       setServicePriceError(true);
@@ -26,26 +47,40 @@ const AnimalDetails = props => {
     }
     setServicePrice(text.replace('<', 0));
   }
-  const addServices = () => {
-    if(service === '' && servicePrice === 0){
+  const addServices = async () => {
+    if(service === '' && servicePrice === 0 && serviceSubType === '' && serviceType){
       Alert.alert('Invalid Input', 'Please enter a valid services details', [{text: 'Okay', style: 'destructive'}]);
     }
     else{
       ANIMALS[animal_id-1].services.push({
         title: service,
-        price: Number(servicePrice)
+        mainCategory: [{
+          type: serviceType,
+          subCategory: [{
+            type: serviceSubType,
+            price: Number(servicePrice)
+          }]
+        }]
       });
       console.log(ANIMALS);
+      try {
+        const data = JSON.stringify(ANIMALS);
+        await AsyncStorage.setItem('Animals', data);
+        alert('Data successfully saved!')
+      } catch (e) {
+        alert('Failed to save data.')
+      }
       Alert.alert('Affirmation', 'Service added successfully', [{text: 'Okay', style: 'destructive'}])
       isSetAddService(false);
     }
   }
   return (
     <View style={styles.screen}>
-      <View style={styles.button}>
+       <View style={styles.button}>
             <Button title='Back To Animals' onPress={() => props.navigation.navigate({routeName: 'AddAnimal'})} color={Colors.primary} />
       </View>
-      <View style={styles.detailItem}>
+      {!isAddService &&
+      <ScrollView style={styles.detailItem}>
       <Text style={styles.smalltext}>ID: {selectedAnimal.id}</Text>
         <Text style={styles.smalltext}>Name: {selectedAnimal.name}</Text>
         <Text style={styles.smalltext}>Services: </Text>
@@ -54,14 +89,12 @@ const AnimalDetails = props => {
           <Text  style={styles.services}>
             {index + 1}. {s?.title}
           </Text>
-          <Text style={styles.price}>
-            {s?.price}
-          </Text>
+          <Button title='View' color={Colors.primary} />
         </View>) : <Text>No Services Added Yet</Text>}
-        </View>
+        </ScrollView>}
         <View style={styles.Add}>
             {isAddService ? <Button title='X' onPress={() => isSetAddService(false)} color={Colors.primary} /> : 
-            <Button title='+' onPress={() => isSetAddService(true)} color={Colors.primary} />}
+            <Button title='+ Add New' onPress={() => isSetAddService(true)} color={Colors.primary} />}
       </View>
       {isAddService && <View style={{width: '90%' }}>
         <TextInput 
@@ -73,6 +106,22 @@ const AnimalDetails = props => {
         style={{borderBottomColor:Colors.primary, borderBottomWidth: 1, padding: 10, marginVertical:10 }} />
         {serviceError ? <Text style={styles.danger}>Enter Valid Service Name</Text> : null}
         <TextInput 
+        placeholder='Full-cut' 
+        blurOnSubmit autoCapitalize='none' 
+        autoCorrect={false}
+        value={serviceType}
+        onChangeText={serviceTypeHandler}
+        style={{borderBottomColor:Colors.primary, borderBottomWidth: 1, padding: 10, marginVertical:10 }} />
+        {serviceTypeError ? <Text style={styles.danger}>Enter Valid Service Name</Text> : null}
+        <TextInput 
+        placeholder='Single' 
+        blurOnSubmit autoCapitalize='none' 
+        autoCorrect={false}
+        value={serviceSubType}
+        onChangeText={serviceSubTypeHandler}
+        style={{borderBottomColor:Colors.primary, borderBottomWidth: 1, padding: 10, marginVertical:10 }} />
+        {serviceSubTypeError ? <Text style={styles.danger}>Enter Valid Service Name</Text> : null}
+        <TextInput 
         placeholder='1000' 
         blurOnSubmit autoCapitalize='none' 
         autoCorrect={false}
@@ -81,7 +130,7 @@ const AnimalDetails = props => {
         style={{borderBottomColor:Colors.primary, borderBottomWidth: 1, padding: 10, marginVertical:10 }} />
         {servicePriceError ? <Text style={styles.danger}>Enter Valid Service Price</Text> : null}
         <View style={styles.AddService}>
-            <Button title='Add Service' onPress={addServices} color={Colors.primary} />
+            <Button title=' + Add Service' onPress={addServices} color={Colors.primary} />
       </View>
         </View>}
 
@@ -98,11 +147,10 @@ AnimalDetails.navigationOptions = (navigationData) => {
 
 const styles = StyleSheet.create({
     detailItem: {
-        margin: 15,
         borderRadius: 10,
         elevation: 2,
         backgroundColor: 'white',
-        padding: 10,
+        paddingHorizontal: 10,
         borderColor: Colors.primary,
         borderWidth:  2,
         width: 320
@@ -113,7 +161,8 @@ const styles = StyleSheet.create({
         flex:1,
         padding: 10,
         alignItems:'center',
-        justifyContent:'center'
+        justifyContent:'center',
+        marginTop: 50
     },
     button: {
         marginVertical: 10,
@@ -141,6 +190,7 @@ const styles = StyleSheet.create({
     },
     Add: {
       fontSize: 24,
+      marginTop: 5
     }
 });
 

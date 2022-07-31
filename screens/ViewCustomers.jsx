@@ -1,17 +1,35 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Text, Button, TextInput, Alert, FlatList } from 'react-native';
 import Colors from "../constants/colors";
 import { CUSTOMER } from '../data/CustomerData';
 import Customer from '../modals/Customer';
 import CustomerGridTile from '../components/CustomerGridTile';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const ViewCustomers = props => {
   const [customer, setCustomer] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
   const [customerError, setCustomerError] = useState(false);
   const [customerPhoneError, setCustomerPhoneError] = useState(false);
-
+  const [customersData, setCustomersData] = useState('');
+  useEffect(() => {
+    const getData = async () => {
+    try {
+      const customers = await AsyncStorage.getItem('Customers')
+  
+      if (customers !== null) {
+        setCustomersData(JSON.parse(customers));
+        let temp = JSON.parse(customers);
+        if(CUSTOMER.length === 0){
+          temp?.map((a) => CUSTOMER.push(new Customer(a.id, a.name, a.phone, a.receipts)));
+        }
+      }
+    } catch (e) {
+      alert('Failed to load animals data.')
+    }
+  }
+    getData();
+  },[])
   const customerHandler = (text) => {
     if(text === ''){
       setCustomerError(true);
@@ -28,12 +46,19 @@ const ViewCustomers = props => {
     }
     setCustomerPhone(text);
   }
-  const addCustomer = () => {
+  const addCustomer = async () => {
     if(customerError || customerPhoneError){
       Alert.alert('Invalid Input', 'Please enter a valid customer name', [{text: 'Okay', style: 'destructive'}]);
     }
     else{
       CUSTOMER.push(new Customer(CUSTOMER.length + 1, customer, customerPhone, []));
+      try {
+        const data = JSON.stringify(CUSTOMER);
+        await AsyncStorage.setItem('Customers', data);
+        alert('Data successfully saved!')
+      } catch (e) {
+        alert('Failed to save data.')
+      }
       Alert.alert('Affirmation', 'Customer added successfully', [{text: 'Okay', style: 'destructive'}])
       setCustomer('');
       setCustomerPhone('');
@@ -79,10 +104,10 @@ const ViewCustomers = props => {
       <View style={styles.Add}>
             <Button title=' + Add Customer' onPress={addCustomer} color={Colors.primary} />
       </View>
-      {CUSTOMER.length > 0 ? <FlatList
+      {customersData.length > 0 ? <FlatList
         keyExtractor={(item, index) => item.id}
         numColumns={0} 
-        data={CUSTOMER} 
+        data={customersData} 
         renderItem={renderGridItem} /> : <Text>No Customers Added Yet</Text>}
       <StatusBar style='auto' />
     </View>
