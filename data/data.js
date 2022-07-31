@@ -3,6 +3,7 @@ import Animal from "../modals/Animal";
 export const ANIMALS = [
   new Animal(1, "Cat", [
     {
+      id: 1,
       title: "trimming",
       mainCategory: [
         {
@@ -30,6 +31,7 @@ export const ANIMALS = [
       ],
     },
     {
+      id: 2,
       title: "grooming",
       mainCategory: [
         {
@@ -51,6 +53,7 @@ export const ANIMALS = [
       ],
     },
     {
+      id: 3,
       title: "vaccination",
       mainCategory: [
         {
@@ -72,6 +75,7 @@ export const ANIMALS = [
       ],
     },
     {
+      id: 4,
       title: "deworming",
       mainCategory: [
         {
@@ -87,6 +91,7 @@ export const ANIMALS = [
       ],
     },
     {
+      id: 5,
       title: "boarding",
       mainCategory: [
         {
@@ -100,6 +105,7 @@ export const ANIMALS = [
       ],
     },
     {
+      id: 6,
       title: "Nails, Ears and Dental Care",
       mainCategory: [
         {
@@ -123,6 +129,7 @@ export const ANIMALS = [
       ],
     },
     {
+      id: 7,
       title: "Foster Care",
       mainCategory: [
         {
@@ -132,6 +139,7 @@ export const ANIMALS = [
       ],
     },
     {
+      id: 8,
       title: "Surgery",
       mainCategory: [
         {
@@ -153,6 +161,7 @@ export const ANIMALS = [
       ],
     },
     {
+      id: 9,
       title: "emergengy",
       mainCategory: [
         {
@@ -166,6 +175,7 @@ export const ANIMALS = [
   ]),
   new Animal(2, "Dog", [
     {
+      id: 1,
       title: "trimming",
       mainCategory: [
         {
@@ -193,6 +203,7 @@ export const ANIMALS = [
       ],
     },
     {
+      id: 2,
       title: "grooming",
       mainCategory: [
         {
@@ -214,6 +225,7 @@ export const ANIMALS = [
       ],
     },
     {
+      id: 3,
       title: "vaccination",
       mainCategory: [
         {
@@ -231,6 +243,7 @@ export const ANIMALS = [
       ],
     },
     {
+      id: 4,
       title: "deworming",
       mainCategory: [
         {
@@ -246,6 +259,7 @@ export const ANIMALS = [
       ],
     },
     {
+      id: 5,
       title: "boarding",
       mainCategory: [
         {
@@ -257,6 +271,7 @@ export const ANIMALS = [
       ],
     },
     {
+      id: 6,
       title: "Nails, Ears and Dental Care",
       mainCategory: [
         {
@@ -276,6 +291,7 @@ export const ANIMALS = [
       ],
     },
     {
+      id: 7,
       title: "Surgery",
       mainCategory: [
         {
@@ -299,6 +315,7 @@ export const ANIMALS = [
       ],
     },
     {
+      id: 8,
       title: "emergengy",
       mainCategory: [
         {
@@ -312,6 +329,7 @@ export const ANIMALS = [
   ]),
   new Animal(3, "Rabbit", [
     {
+      id: 1,
         title: "Purchase",
         mainCategory: [
           {
@@ -323,6 +341,7 @@ export const ANIMALS = [
         ],
       },
     {
+      id: 2,
       title: "trimming",
       mainCategory: [
         {
@@ -346,6 +365,7 @@ export const ANIMALS = [
       ],
     },
     {
+      id: 3,
       title: "grooming",
       mainCategory: [
         {
@@ -375,6 +395,7 @@ export const ANIMALS = [
       ],
     },
     {
+      id: 4,
       title: "deworming",
       mainCategory: [
         {
@@ -384,6 +405,7 @@ export const ANIMALS = [
       ],
     },
     {
+      id: 5,
       title: "boarding",
       mainCategory: [
         {
@@ -393,6 +415,7 @@ export const ANIMALS = [
       ],
     },
     {
+      id: 6,
       title: "Nails, Ears and Scabies Care",
       mainCategory: [
         {
@@ -410,6 +433,7 @@ export const ANIMALS = [
       ],
     },
     {
+      id: 7,
       title: "Surgery",
       mainCategory: [
         {
@@ -431,6 +455,7 @@ export const ANIMALS = [
       ],
     },
     {
+      id: 8,
       title: "emergengy",
       mainCategory: [
         {
@@ -445,6 +470,7 @@ export const ANIMALS = [
   new Animal(4, "Birds", [
 
     {
+      id: 1,
       title: "DNA testing",
       mainCategory: [
         {
@@ -454,6 +480,7 @@ export const ANIMALS = [
       ],
     },
     {
+      id: 2,
       title: "Nails and Feather Care",
       mainCategory: [
         {

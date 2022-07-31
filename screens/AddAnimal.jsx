@@ -133,6 +133,9 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 90
+  },
+  danger : {
+    color: Colors.danger
   }
 });
 export default AddAnimal;

@@ -89,7 +89,10 @@ const AnimalDetails = props => {
           <Text  style={styles.services}>
             {index + 1}. {s?.title}
           </Text>
-          <Button title='View' color={Colors.primary} />
+          <Button title='View' color={Colors.primary} onPress={() => props.navigation.navigate({routeName: 'ViewService', params : {
+            service : s,
+            selectedAnimal : selectedAnimal
+          }})} />
         </View>) : <Text>No Services Added Yet</Text>}
         </ScrollView>}
         <View style={styles.Add}>
@@ -153,15 +156,13 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         borderColor: Colors.primary,
         borderWidth:  2,
-        width: 320
+        width: '100%'
     
     },
     screen: {
         backgroundColor:Colors.secondary,
         flex:1,
         padding: 10,
-        alignItems:'center',
-        justifyContent:'center',
         marginTop: 50
     },
     button: {
