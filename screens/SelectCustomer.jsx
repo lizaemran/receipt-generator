@@ -1,11 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import Colors from "../constants/colors";
 import { CUSTOMER } from '../data/CustomerData';
+import Customer from '../modals/Customer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SelectCustomer = props => {
-  const animal =  props.navigation.getParam('animal');
+  const animals =  props.navigation.getParam('animals');
+  useEffect(() => {
+    const getData = async () => {
+    try {
+      const customers = await AsyncStorage.getItem('Customers')
+      if (customers !== null) {
+        if(CUSTOMER.length === 0){
+          let temp = JSON.parse(customers);
+          temp?.map((a) => CUSTOMER.push(new Customer(a.id, a.name, a.phone, a.receipts)));
+          console.log(CUSTOMER);
+        }
+      }
+    } catch (e) {
+      alert('Failed to load customers data.')
+    }
+  }
+    getData();
+  },[])
   return (
     <View style={styles.screen}>
       <View style={styles.button}>
@@ -17,7 +36,7 @@ const SelectCustomer = props => {
             routeName: 'SelectServices',
             params: {
                 customer: a.name,
-                animal: animal
+                animals: animals
             }
           })}>
             {a.name}

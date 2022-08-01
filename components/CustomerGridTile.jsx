@@ -25,7 +25,6 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         borderColor: Colors.primary,
         borderWidth:  2, 
-        width: 320,
     },
     container: {
         justifyContent: 'flex-start',

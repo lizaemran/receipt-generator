@@ -6,5 +6,6 @@ export default {
     headerText: '#fff',
     active: '#25d366',
     notActive: 'gray',
-    danger : 'red'
+    danger : 'red',
+    success: '#25d366'
 }

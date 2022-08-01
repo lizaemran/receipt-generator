@@ -56,6 +56,9 @@ const AddAnimal = props => {
           const data = JSON.stringify(ANIMALS);
           await AsyncStorage.setItem('Animals', data);
           alert('Data successfully saved after deleting!')
+          props.navigation.navigate({
+            routeName: 'MainPage',
+          })
         } catch (e) {
           alert('Failed to save data.')
         }
@@ -94,7 +97,7 @@ const AddAnimal = props => {
         {animalError ? <Text style={styles.danger}>Enter Valid Animal Name</Text> : null}
       </View>
       <View style={styles.Add}>
-            <Button title=' + Add Animal' onPress={addAnimal} color={Colors.primary} />
+            <Button title=' + Add Animal' onPress={addAnimal} color={Colors.success} />
       </View>
       {ANIMALS.length > 0 ? (<FlatList
         keyExtractor={(item, index) => index}
@@ -121,8 +124,6 @@ const styles = StyleSheet.create({
   screen: {
     backgroundColor: Colors.secondary,
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
     padding: 10
   },
   input: {

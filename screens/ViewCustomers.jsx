@@ -102,7 +102,7 @@ const ViewCustomers = props => {
         {customerPhoneError ? <Text style={styles.danger}>Enter Valid Customer Phone</Text> : null}
       </View>
       <View style={styles.Add}>
-            <Button title=' + Add Customer' onPress={addCustomer} color={Colors.primary} />
+            <Button title=' + Add Customer' onPress={addCustomer} color={Colors.success} />
       </View>
       {customersData.length > 0 ? <FlatList
         keyExtractor={(item, index) => item.id}
@@ -125,8 +125,7 @@ const styles = StyleSheet.create({
   screen: {
     backgroundColor: Colors.secondary,
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    paddingHorizontal: 5
   },
   input: {
     width: '90%',

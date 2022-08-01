@@ -24,7 +24,7 @@ const AnimalDetails = props => {
     setService(text.replace('<', ''));
   }
   const serviceTypeHandler = (text) => {
-    if(text === 0){
+    if(text === ''){
       setServiceTypeError(true);
     }else{
       setServiceTypeError(false);
@@ -32,7 +32,7 @@ const AnimalDetails = props => {
     setServiceType(text.replace('<', 0));
   }
   const serviceSubTypeHandler = (text) => {
-    if(text === 0){
+    if(text === ''){
       setServiceSubTypeError(true);
     }else{
       setServiceSubTypeError(false);
@@ -47,22 +47,36 @@ const AnimalDetails = props => {
     }
     setServicePrice(text.replace('<', 0));
   }
+  function makeid(length) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * 
+ charactersLength));
+   }
+   return result;
+}
   const addServices = async () => {
     if(service === '' && servicePrice === 0 && serviceSubType === '' && serviceType){
       Alert.alert('Invalid Input', 'Please enter a valid services details', [{text: 'Okay', style: 'destructive'}]);
     }
     else{
+      let i = ANIMALS[animal_id-1].services.length;
       ANIMALS[animal_id-1].services.push({
+        id: i+1,
         title: service,
         mainCategory: [{
+          id: `${selectedAnimal.name}-${selectedAnimal.id}-${makeid(1)}`,
           type: serviceType,
           subCategory: [{
             type: serviceSubType,
-            price: Number(servicePrice)
+            price: Number(servicePrice),
+            quantity: 1,
+            discount: 0
           }]
         }]
       });
-      console.log(ANIMALS);
       try {
         const data = JSON.stringify(ANIMALS);
         await AsyncStorage.setItem('Animals', data);
@@ -96,10 +110,11 @@ const AnimalDetails = props => {
         </View>) : <Text>No Services Added Yet</Text>}
         </ScrollView>}
         <View style={styles.Add}>
-            {isAddService ? <Button title='X' onPress={() => isSetAddService(false)} color={Colors.primary} /> : 
-            <Button title='+ Add New' onPress={() => isSetAddService(true)} color={Colors.primary} />}
+            {isAddService ? <Button title='X Cancel' onPress={() => isSetAddService(false)} color={Colors.danger} /> : 
+            <Button title='+ Add New' onPress={() => isSetAddService(true)} color={Colors.success} />}
       </View>
-      {isAddService && <View style={{width: '90%' }}>
+      {isAddService && 
+      <View >
         <TextInput 
         placeholder='Trimming' 
         blurOnSubmit autoCapitalize='none' 
@@ -107,7 +122,7 @@ const AnimalDetails = props => {
         value={service}
         onChangeText={serviceHandler}
         style={{borderBottomColor:Colors.primary, borderBottomWidth: 1, padding: 10, marginVertical:10 }} />
-        {serviceError ? <Text style={styles.danger}>Enter Valid Service Name</Text> : null}
+        {serviceError ? <Text style={styles.danger}>Enter Valid Service Title</Text> : null}
         <TextInput 
         placeholder='Full-cut' 
         blurOnSubmit autoCapitalize='none' 
@@ -115,7 +130,7 @@ const AnimalDetails = props => {
         value={serviceType}
         onChangeText={serviceTypeHandler}
         style={{borderBottomColor:Colors.primary, borderBottomWidth: 1, padding: 10, marginVertical:10 }} />
-        {serviceTypeError ? <Text style={styles.danger}>Enter Valid Service Name</Text> : null}
+        {serviceTypeError ? <Text style={styles.danger}>Enter Valid Main Category </Text> : null}
         <TextInput 
         placeholder='Single' 
         blurOnSubmit autoCapitalize='none' 
@@ -123,7 +138,7 @@ const AnimalDetails = props => {
         value={serviceSubType}
         onChangeText={serviceSubTypeHandler}
         style={{borderBottomColor:Colors.primary, borderBottomWidth: 1, padding: 10, marginVertical:10 }} />
-        {serviceSubTypeError ? <Text style={styles.danger}>Enter Valid Service Name</Text> : null}
+        {serviceSubTypeError ? <Text style={styles.danger}>Enter Valid Sub Category Title</Text> : null}
         <TextInput 
         placeholder='1000' 
         blurOnSubmit autoCapitalize='none' 
@@ -132,9 +147,7 @@ const AnimalDetails = props => {
         onChangeText={servicePriceHandler}
         style={{borderBottomColor:Colors.primary, borderBottomWidth: 1, padding: 10, marginVertical:10 }} />
         {servicePriceError ? <Text style={styles.danger}>Enter Valid Service Price</Text> : null}
-        <View style={styles.AddService}>
-            <Button title=' + Add Service' onPress={addServices} color={Colors.primary} />
-      </View>
+        <Button title=' + Add Service' onPress={addServices} color={Colors.success} />
         </View>}
 
     </View>
@@ -157,7 +170,6 @@ const styles = StyleSheet.create({
         borderColor: Colors.primary,
         borderWidth:  2,
         width: '100%'
-    
     },
     screen: {
         backgroundColor:Colors.secondary,
@@ -167,9 +179,6 @@ const styles = StyleSheet.create({
     },
     button: {
         marginVertical: 10,
-        width: Dimensions.get('window').width * 0.9,    
-        alignItems:'center',
-        justifyContent:'center',
     },
     text : {
         fontSize: 20,
@@ -192,6 +201,9 @@ const styles = StyleSheet.create({
     Add: {
       fontSize: 24,
       marginTop: 5
+    },
+    danger: {
+      color: Colors.danger
     }
 });
 

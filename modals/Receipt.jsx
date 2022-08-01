@@ -1,4 +1,4 @@
-class Customer {
+class Receipt {
   constructor(id, customer, animal, services, discount, total){
       this.id = id;
       this.customer = customer;
@@ -9,4 +9,4 @@ class Customer {
   }
 }
 
-export default Customer;
+export default Receipt;
