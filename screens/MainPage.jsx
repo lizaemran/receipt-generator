@@ -64,7 +64,7 @@ const MainPage = (props) => {
 };
 
 MainPage.navigationOptions = {
-  headerTitle: "Tasks",
+  headerTitle: "Home",
   headerStyle: {
       borderBottomLeftRadius: 20,
       borderBottomRightRadius: 20

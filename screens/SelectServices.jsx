@@ -14,15 +14,37 @@ import { ANIMALS } from "../data/data";
 const SelectServices = (props) => {
   const animals = props.navigation.getParam("animals");
   const customer = props.navigation.getParam("customer");
+  const [receipt, setReceipt] = useState([]);
   const animal_details = animals.map((animal) =>
     ANIMALS.find((a) => a.name === animal)
   );
-  console.log(animal_details);
-  let services = [];
-  const addServices = (s) => {
-    // s.quantity = 1;
-    // services.push(s);
+  const isAdded = (id) => {
+    let isPresent = false;
+    if(receipt.length > 0){
+      for(let i=0;i<= receipt?.length;i++){
+        if(receipt[i]?.category?.id === id) isPresent = true;
+      }
+    }
+    return isPresent;
+  }
+  const addServices = (animal, s, m_id, index, category) => {
+    setReceipt((current) => [
+      ...current,
+      {
+        animal: animal,
+        service: s,
+        main_id: m_id,
+        category_index: index,
+        category: category,
+      },
+    ]);
   };
+  const removeCategory = (id) => {
+    setReceipt(current =>
+      current.filter(element => element.category.id !== id)
+    );
+  }
+  console.log(receipt);
   return (
     <View style={styles.screen}>
       <View style={styles.servicesRow}>
@@ -33,20 +55,20 @@ const SelectServices = (props) => {
           }
           color={Colors.primary}
         />
-        <Button
-          title="Generate Receipt"
+        {receipt.length > 0 && <Button
+          title="Edit Receipt"
           onPress={() =>
             props.navigation.navigate({
-              routeName: "GenerateReceipt",
+              routeName: "EditReceipt",
               params: {
                 customer: customer,
                 animals: animals,
-                services: services,
+                receipt: receipt,
               },
             })
           }
           color={Colors.primary}
-        />
+        />}
       </View>
       <ScrollView style={styles.services}>
         <Text>Animal: {animal_details.map((a) => a.name + " ")}</Text>
@@ -62,29 +84,24 @@ const SelectServices = (props) => {
                 {s.mainCategory.map((m) => (
                   <View key={m.type}>
                     <Text style={styles.main}>{m.type}</Text>
-                    {m.subCategory.map((c) => (
+                    {m.subCategory.map((c, index) => (
                       <View key={c.type} style={styles.servicesRow}>
                         <Text>{c.type}</Text>
-                        <Text>{c.price}</Text>
-                        <Text>{c.discount}</Text>
-                        <Button
-                          title="+ Add"
-                          color={Colors.primary}
-                          onPress={() => addServices(s)}
-                        />
-                        <View style={styles.quantity}>
+                        {isAdded(c.id) ? (
                           <Button
-                            title="+"
-                            color={Colors.primary}
-                            onPress={() => addServices(s)}
+                            title="Remove"
+                            color={Colors.danger}
+                            onPress={() => removeCategory(c.id)}
                           />
-                          <Text>{c.quantity}</Text>
+                        ) : (
                           <Button
-                            title="-"
-                            color={Colors.primary}
-                            onPress={() => addServices(s)}
+                            title="+ Add"
+                            color={Colors.success}
+                            onPress={() =>
+                              addServices(a.name, s.title, m.id, index, c)
+                            }
                           />
-                        </View>
+                        )}
                       </View>
                     ))}
                   </View>
@@ -119,7 +136,7 @@ const styles = StyleSheet.create({
     padding: 5,
     borderColor: Colors.primary,
     borderWidth: 2,
-    marginTop: 5,
+    marginVertical: 5,
   },
 
   servicesRow: {
@@ -143,15 +160,19 @@ const styles = StyleSheet.create({
     textTransform: "capitalize",
   },
   quantity: {
-    alignItems:'center',
-    flexDirection: 'row'
+    alignItems: "center",
+    flexDirection: "row",
   },
   animal: {
-    fontWeight: '700',
+    fontWeight: "700",
     fontSize: 24,
-    textAlign: 'center',
+    textAlign: "center",
     borderBottomColor: Colors.primary,
-    borderBottomWidth: 2
-  }
+    borderBottomWidth: 2,
+    borderTopColor: Colors.primary,
+    borderTopWidth: 2,
+    marginVertical: 5,
+    backgroundColor: Colors.secondary
+  },
 });
 export default SelectServices;

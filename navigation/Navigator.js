@@ -12,14 +12,13 @@ import AnimalDetails from '../screens/AnimalDetails';
 import CustomerDetails from '../screens/CustomerDetails';
 import SelectServices from '../screens/SelectServices';
 import ViewService from '../screens/ViewService';
+import EditReceipt from '../screens/EditReceipt';
+import AnimalInfo from '../screens/AnimalInfo';
 
 
 const Navigator = createStackNavigator({
   MainPage : {
         screen : MainPage,
-        // navigationOptions : {
-        //     header : null
-        // },
     },
     SelectAnimal : {
         screen : SelectAnimal,
@@ -47,6 +46,12 @@ const Navigator = createStackNavigator({
     },
     ViewService: {
       screen : ViewService,
+    },
+    EditReceipt: {
+      screen : EditReceipt,
+    },
+    AnimalInfo: {
+      screen : AnimalInfo,
     }
 },{
     mode : 'modal',

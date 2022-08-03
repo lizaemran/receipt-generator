@@ -16,7 +16,6 @@ const SelectCustomer = props => {
         if(CUSTOMER.length === 0){
           let temp = JSON.parse(customers);
           temp?.map((a) => CUSTOMER.push(new Customer(a.id, a.name, a.phone, a.receipts)));
-          console.log(CUSTOMER);
         }
       }
     } catch (e) {
@@ -28,7 +27,7 @@ const SelectCustomer = props => {
   return (
     <View style={styles.screen}>
       <View style={styles.button}>
-            <Button title='Back To Dashboard' onPress={() => props.navigation.navigate({routeName: 'MainPage'})} color={Colors.primary} />
+            <Button title='Back To Animals' onPress={() => props.navigation.navigate({routeName: 'SelectAnimal'})} color={Colors.primary} />
       </View>
       <View>
         {CUSTOMER.map((a) => 

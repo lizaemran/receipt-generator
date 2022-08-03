@@ -39,7 +39,7 @@ const SelectAnimal = (props) => {
           </Text>
         ))}
       </View>
-      <Button
+      {animals.length > 0 ? <Button
         title="Next"
         color={Colors.primary}
         onPress={() =>
@@ -50,7 +50,7 @@ const SelectAnimal = (props) => {
             },
           })
         }
-      />
+      /> : null}
       <StatusBar style="auto" />
     </View>
   );

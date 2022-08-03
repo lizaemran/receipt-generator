@@ -105,6 +105,7 @@ const ViewService = (props) => {
       });
       let index = ANIMALS[selectedAnimal.id - 1].services[service.id - 1].mainCategory.length;
       ANIMALS[selectedAnimal.id-1].services[service.id - 1].mainCategory[index-1].subCategory.push({
+        id: `${selectedAnimal.name}-${selectedAnimal.mainCategory[index-1].type}-${selectedAnimal.id}-${makeid(1)}`,
         type : sub,
         price: price,
         quantity: 1,
@@ -129,6 +130,7 @@ const ViewService = (props) => {
     const indexM = indexArray.indexOf(true);
     console.log(indexM);
     ANIMALS[selectedAnimal.id-1].services[service.id - 1].mainCategory[indexM]?.subCategory.push({
+      id: `${selectedAnimal.name}-${selectedAnimal.mainCategory[indexM].type}-${selectedAnimal.id}-${makeid(1)}`,
       type : typeSub,
       price: priceSub,
       quantity: 1,
