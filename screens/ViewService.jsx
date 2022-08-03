@@ -128,7 +128,6 @@ const ViewService = (props) => {
   const addSubHandler = async () => {
     let indexArray = ANIMALS[selectedAnimal.id - 1].services[service.id - 1].mainCategory.map(m => {return m.id === mainID })
     const indexM = indexArray.indexOf(true);
-    console.log(indexM);
     ANIMALS[selectedAnimal.id-1].services[service.id - 1].mainCategory[indexM]?.subCategory.push({
       id: `${selectedAnimal.name}-${selectedAnimal.mainCategory[indexM].type}-${selectedAnimal.id}-${makeid(1)}`,
       type : typeSub,

@@ -44,7 +44,6 @@ const SelectServices = (props) => {
       current.filter(element => element.category.id !== id)
     );
   }
-  console.log(receipt);
   return (
     <View style={styles.screen}>
       <View style={styles.servicesRow}>
