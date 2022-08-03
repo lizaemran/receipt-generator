@@ -8,7 +8,7 @@ const EditReceipt = props => {
   const [receipt, setReceipt] = useState(receiptParam);
   const animals = props.navigation.getParam("animals");
   const animal_details = animals.map((animal) =>
-  ANIMALS.find((a) => a.name === animal)
+  ANIMALS.find((a) => a.name === animal.type) 
 );
   const incrementQuantity = (id) => {
     if(receipt.length > 0){
@@ -46,10 +46,10 @@ const EditReceipt = props => {
           color={Colors.primary}
         />
         <Button
-          title="Add Animal Info"
+          title="Generate Receipt"
           onPress={() =>
             props.navigation.navigate({
-              routeName: "AnimalInfo",
+              routeName: "GenerateReceipt",
               params: {
                 customer: customer,
                 animals: animals,
@@ -71,15 +71,13 @@ const EditReceipt = props => {
           <View style={styles.servicesRow}>
             <Text>{r.category.type}</Text>
             <View style={styles.servicesRow}>
-              <Button
-                title="+"
-                color={Colors.success}
-                onPress={() => incrementQuantity(r.category.id)} />
+              <Text
+                style={styles.incrementQuantity}
+                onPress={() => incrementQuantity(r.category.id)}>+</Text>
               <Text>{r.category.quantity}</Text>
-              <Button
-                title="-"
-                color={Colors.danger}
-                onPress={() => decrementQuantity(r.category.id)} />
+              <Text
+                style={styles.decrementQuantity}
+                onPress={() => decrementQuantity(r.category.id)}>-</Text>
               </View>
           </View>
           <View style={styles.servicesRow}>
@@ -140,7 +138,24 @@ const styles = StyleSheet.create({
  },
  danger: {
    color: Colors.danger
- }
+ },
+ incrementQuantity: {
+  backgroundColor: Colors.success,
+  paddingVertical: 5,
+  borderRadius: 100,
+  color: 'white',
+  paddingHorizontal: 10,
+  fontSize: 18
+ },
+ decrementQuantity: {
+  backgroundColor: Colors.danger,
+  paddingVertical: 5,
+  borderRadius: 100,
+  color: 'white',
+  paddingHorizontal: 10,
+  fontSize: 18
+ },
+ 
 });
 
 export default EditReceipt;

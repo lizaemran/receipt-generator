@@ -1,26 +1,53 @@
-import React from "react";
+import React, { useState } from "react";
 import { Text, View, Button , StyleSheet, Dimensions, ScrollView } from 'react-native';
+import AnimalInfoForm from "../components/AnimalInfoForm";
 import Colors from '../constants/colors';
-import { ANIMALS } from "../data/data";
 const AnimalInfo = props => {
-  const customer = props.navigation.getParam("customer");
-  const receipt = props.navigation.getParam("receipt");
+  const initialValues = [{
+    type: '',
+    name: '',
+    age: '',
+    color: ''
+  }]
+  const [animalInfo, setAnimalInfo] = useState(initialValues);
   const animals = props.navigation.getParam("animals");
-  const animal_details = animals.map((animal) =>
-  ANIMALS.find((a) => a.name === animal)
-);
-console.log(receipt)
   return(
     <View style={styles.screen}>
-        <Text>Animal: {animal_details.map((a) => a.name + " ")}</Text>
-        <Text>Customer: {customer}</Text>
-        <Button
-          title="Back to Edit Quantity"
+      <View style={styles.servicesRow}>
+      <Button
+          title="Back to Animals"
           onPress={() =>
-            props.navigation.navigate({ routeName: "EditReceipt" })
+            props.navigation.navigate({ routeName: "SelectAnimal" })
           }
           color={Colors.primary}
         />
+         {(animals.length === animalInfo.length) && <Button
+          title="Next"
+          onPress={() =>
+            props.navigation.navigate({ routeName: "SelectCustomer" ,
+            params: {
+              animals: animalInfo,
+            },
+          })
+          }
+          color={Colors.primary}
+        />}
+      </View>
+      
+      <ScrollView>
+        {animals.map((a, index) => 
+            <View key={index}>
+              <View style={styles.name}>
+                <Text style={styles.info}>{a}</Text>
+                <Text style={styles.info}>Nick Name: {animalInfo[index]?.name}</Text>
+                <Text style={styles.info}>Age: {animalInfo[index]?.age}</Text>
+                <Text style={styles.info}>Color: {animalInfo[index]?.color}</Text>
+              </View>
+              <AnimalInfoForm animal={a} animalInfo={animalInfo} index={index} setAnimalInfo={setAnimalInfo} />
+            </View>
+          )}
+        </ScrollView>
+       
     </View>
   )
 }
@@ -72,7 +99,19 @@ const styles = StyleSheet.create({
  },
  danger: {
    color: Colors.danger
- }
+ },
+ name: {
+  marginVertical: 10,
+  borderBottomColor: Colors.primary,
+  borderBottomWidth: 2,
+  backgroundColor: "rgba(59, 114, 237,0.5)",
+  padding: 10,
+  fontSize: 18,
+},
+info: {
+  textAlign: "center",
+  textTransform: "capitalize",
+}
 });
 
 export default AnimalInfo;

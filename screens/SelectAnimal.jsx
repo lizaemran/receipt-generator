@@ -44,7 +44,7 @@ const SelectAnimal = (props) => {
         color={Colors.primary}
         onPress={() =>
           props.navigation.navigate({
-            routeName: "SelectCustomer",
+            routeName: "AnimalInfo",
             params: {
               animals: animals,
             },

@@ -16,7 +16,7 @@ const SelectServices = (props) => {
   const customer = props.navigation.getParam("customer");
   const [receipt, setReceipt] = useState([]);
   const animal_details = animals.map((animal) =>
-    ANIMALS.find((a) => a.name === animal)
+    ANIMALS.find((a) => a.name === animal.type)
   );
   const isAdded = (id) => {
     let isPresent = false;
@@ -36,6 +36,7 @@ const SelectServices = (props) => {
         main_id: m_id,
         category_index: index,
         category: category,
+        animalInfo: animals
       },
     ]);
   };

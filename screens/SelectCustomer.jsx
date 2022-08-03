@@ -27,7 +27,7 @@ const SelectCustomer = props => {
   return (
     <View style={styles.screen}>
       <View style={styles.button}>
-            <Button title='Back To Animals' onPress={() => props.navigation.navigate({routeName: 'SelectAnimal'})} color={Colors.primary} />
+            <Button title='Back To Animal Info' onPress={() => props.navigation.navigate({routeName: 'AnimalInfo'})} color={Colors.primary} />
       </View>
       <View>
         {CUSTOMER.map((a) => 
