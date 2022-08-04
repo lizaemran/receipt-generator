@@ -4,7 +4,6 @@ class Receipt {
       this.customer = customer;
       this.animal = animal;
       this.services = services;
-      this.discount = discount;
       this.total = total;
   }
 }

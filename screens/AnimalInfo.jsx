@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
   marginVertical: 10,
   borderBottomColor: Colors.primary,
   borderBottomWidth: 2,
-  backgroundColor: "rgba(59, 114, 237,0.5)",
+  backgroundColor: Colors.primary,
   padding: 10,
   fontSize: 18,
 },

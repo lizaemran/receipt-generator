@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Button, ScrollView, Dimensions } from 'react-native';
 import Colors from "../constants/colors";
 import { CUSTOMER } from '../data/CustomerData';
 import Customer from '../modals/Customer';
@@ -29,7 +29,7 @@ const SelectCustomer = props => {
       <View style={styles.button}>
             <Button title='Back To Animal Info' onPress={() => props.navigation.navigate({routeName: 'AnimalInfo'})} color={Colors.primary} />
       </View>
-      <View>
+      <ScrollView>
         {CUSTOMER.map((a) => 
           <Text style={styles.name} key={a.id} onPress={() => props.navigation.navigate({
             routeName: 'SelectServices',
@@ -41,7 +41,7 @@ const SelectCustomer = props => {
             {a.name}
           </Text>
         )}
-      </View>
+      </ScrollView>
       <StatusBar style='auto' />
     </View>
   )
@@ -60,17 +60,22 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    paddingTop: 100
   },
   name: {
     marginVertical: 10,
-    width: 200,
     borderBottomColor: Colors.primary,
     borderBottomWidth: 2,
-    textAlign: 'center',
-    textTransform: 'capitalize',
-    backgroundColor: 'rgba(59, 114, 237,0.5)',
-    padding: 10,
-    fontSize: 18
+    textAlign: "center",
+    textTransform: "capitalize",
+    backgroundColor: Colors.primary,
+    paddingHorizontal: 10,
+    fontSize: 18,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    paddingVertical: 20,
+    width: Dimensions.get('window').width * 0.9,
+
   }
 });
 

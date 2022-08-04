@@ -39,7 +39,7 @@ const AnimalInfoForm = (props) => {
   };
   const submitHandler = () => {
     if (nickName !== "" && color !== "" && age !== "") {
-      if(animalInfo.length >= 1 && animalInfo[0].type !== ''){
+      if(animalInfo.length >= 1){
         let newArr = [...animalInfo];
         newArr[index] = {
           type: animal,

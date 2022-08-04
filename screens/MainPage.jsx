@@ -21,7 +21,7 @@ const MainPage = (props) => {
     <View style={styles.screen}>
       <View style={styles.inputContainer}>
         <View style={styles.headingContainer}>
-        <FontAwesome name="tasks" size={20} color="black" style={{marginRight: 10}} />
+        <FontAwesome name="tasks" size={20} color="#424242" style={{marginRight: 10}} />
         <Text style={styles.heading}>Select</Text>
         </View>
         <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={10}>
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     color: 'white'
   },
   heading: {
-    color: "black",
+    color: "#424242",
     fontSize: 20,
   },
   headingContainer: {

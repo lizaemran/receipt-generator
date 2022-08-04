@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View, Text, Button } from "react-native";
+import { StyleSheet, View, Text, Button, ScrollView, Dimensions } from "react-native";
 import Colors from "../constants/colors";
 import { ANIMALS } from "../data/data";
 import { Ionicons } from "@expo/vector-icons";
@@ -22,24 +22,13 @@ const SelectAnimal = (props) => {
 
   return (
     <View style={styles.screen}>
-      <View style={styles.button}>
+      <View style={styles.serviceRow}>
         <Button
           title="Back To Dashboard"
           onPress={() => props.navigation.navigate({ routeName: "MainPage" })}
           color={Colors.primary}
         />
-      </View>
-      <View>
-        {ANIMALS.map((a) => (
-          <Text style={styles.name} key={a.id} onPress={() => animalsHandler(a.name)}>
-            {animals.includes(a.name) && (
-                <Ionicons name="checkmark-sharp" size={24} color={Colors.success} />
-            )}
-            {a.name}
-          </Text>
-        ))}
-      </View>
-      {animals.length > 0 ? <Button
+         {animals.length > 0 ? <Button
         title="Next"
         color={Colors.primary}
         onPress={() =>
@@ -51,6 +40,17 @@ const SelectAnimal = (props) => {
           })
         }
       /> : null}
+      </View>
+      <ScrollView  >
+        {ANIMALS.map((a) => (
+          <Text style={styles.name} key={a.id} onPress={() => animalsHandler(a.name)}>
+            {animals.includes(a.name) && (
+                <Ionicons name="checkmark-sharp" size={24} color={Colors.success} />
+            )}
+            {a.name}
+          </Text>
+        ))}
+      </ScrollView>
       <StatusBar style="auto" />
     </View>
   );
@@ -75,9 +75,14 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     textAlign: "center",
     textTransform: "capitalize",
-    backgroundColor: "rgba(59, 114, 237,0.5)",
-    padding: 10,
+    backgroundColor: Colors.primary,
+    paddingHorizontal: 10,
     fontSize: 18,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    paddingVertical: 20,
+    width: Dimensions.get('window').width * 0.945,
+
   },
   serviceRow: {
     flexDirection: "row",
