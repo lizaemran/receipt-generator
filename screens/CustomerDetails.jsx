@@ -151,7 +151,7 @@ const CustomerDetails = (props) => {
           selectedCustomer?.receipts?.map((i, ind) => (
             <View key={ind} style={styles.receiptTile}>
               <Text>{ind + 1}. Receipt</Text>
-              {i.receipt.map((r, index) => (
+              {i.receipt?.map((r, index) => (
                 <View key={index}>
                   <Text
                     style={{

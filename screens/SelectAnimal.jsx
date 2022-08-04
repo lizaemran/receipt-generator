@@ -70,9 +70,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   name: {
-    marginVertical: 10,
-    borderBottomColor: Colors.primary,
-    borderBottomWidth: 2,
+    marginVertical: 10, 
     textAlign: "center",
     textTransform: "capitalize",
     backgroundColor: Colors.primary,
@@ -80,7 +78,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    paddingVertical: 20,
+    paddingVertical: 15,
     width: Dimensions.get('window').width * 0.945,
 
   },
