@@ -156,6 +156,7 @@ const ViewCustomers = (props) => {
           autoCorrect={false}
           value={customerPhone}
           onChangeText={customerPhoneHandler}
+          keyboardType="numeric"
           style={{
             borderBottomColor: Colors.primary,
             borderBottomWidth: 1,

@@ -45,7 +45,10 @@ const SelectCustomer = props => {
               flexDirection: "row",
               alignItems: "center",
               borderColor: Colors.primary,
-              borderBottomWidth: 1
+              borderBottomWidth: 1,
+              backgroundColor: 'white',
+              borderRadius: 5,
+              marginTop: 15
             }}
           >
             <TextInput

@@ -112,7 +112,6 @@ const AnimalInfoForm = (props) => {
         autoCorrect={false}
         value={age}
         onChangeText={ageHandler}
-        keyboardType='numeric'
         style={{
           borderBottomColor: Colors.primary,
           borderBottomWidth: 1,

@@ -20,7 +20,7 @@ const EditReceipt = (props) => {
   const [discountArr, setDiscountArr] = useState([]);
   const animals = props.navigation.getParam("animals");
   const animal_details = animals.map((animal) =>
-    ANIMALS.find((a) => a.name === animal.type)
+  ANIMALS.find((a) => (a?.name).toLowerCase() === (animal.type).toLowerCase())
   );
   const incrementQuantity = (id) => {
     if (receipt.length > 0) {

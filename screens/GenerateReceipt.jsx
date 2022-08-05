@@ -64,7 +64,7 @@ const GenerateReceipt = (props) => {
       alert(`Uh oh, sharing isn't available on your platform`);
       return;
     }
-    await Sharing.shareAsync(uri);
+    if(uri) await Sharing.shareAsync(uri);
   };
   var d = new Date();
   d = d.getDate() + "/" + d.getMonth() + "/" + d.getFullYear();

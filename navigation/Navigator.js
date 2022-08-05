@@ -14,6 +14,8 @@ import SelectServices from '../screens/SelectServices';
 import ViewService from '../screens/ViewService';
 import EditReceipt from '../screens/EditReceipt';
 import AnimalInfo from '../screens/AnimalInfo';
+import ViewAnimalBio from '../screens/ViewAnimalBio';
+import AnimalBioDetails from '../screens/AnimalBioDetails';
 
 
 const Navigator = createStackNavigator({
@@ -52,6 +54,12 @@ const Navigator = createStackNavigator({
     },
     AnimalInfo: {
       screen : AnimalInfo,
+    },
+    ViewAnimalBio: {
+      screen : ViewAnimalBio,
+    },
+    AnimalBioDetails: {
+      screen : AnimalBioDetails,
     }
 },{
     mode : 'modal',

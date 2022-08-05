@@ -19,7 +19,7 @@ const SelectServices = (props) => {
   const [search, setSearch] = useState("");
   const [searchError, setSearchError] = useState(false);
   const animal_details = animals.map((animal) =>
-    ANIMALS.find((a) => a.name === animal.type)
+    ANIMALS.find((a) => (a?.name).toLowerCase() === (animal.type).toLowerCase())
   );
   const isAdded = (id) => {
     let isPresent = false;
@@ -84,14 +84,16 @@ const SelectServices = (props) => {
         )}
       </View>
       <ScrollView style={styles.services}>
-        <Text>Animal: {animal_details.map((a) => a.name + " ")}</Text>
+        <Text>Animal: {animal_details.map((a) => a?.name + " ")}</Text>
         <Text>Customer: {customer}</Text>
         <View>
           <View
             style={{
               flexDirection: "row",
               alignItems: "center",
-              
+              borderColor: Colors.primary,
+              borderTopWidth: 1,
+              borderRadius: 5,
             }}
           >
             <TextInput
@@ -113,9 +115,9 @@ const SelectServices = (props) => {
           ) : null}
         </View>
         {animal_details.map((a) => (
-          <View key={a.name}>
-            <Text style={styles.animal}>{a.name}</Text>
-            {a.services?.filter(service => service.title.includes(search)).map((s) => (
+          <View key={a?.name}>
+            <Text style={styles.animal}>{a?.name}</Text>
+            {a?.services?.filter(service => service.title.includes(search)).map((s) => (
               <View key={s.title}>
                 <View>
                   <Text style={styles.title}>{s.title}</Text>
@@ -137,7 +139,7 @@ const SelectServices = (props) => {
                             title="+ Add"
                             color={Colors.success}
                             onPress={() =>
-                              addServices(a.name, s.title, m.id, index, c)
+                              addServices(a?.name, s.title, m.id, index, c)
                             }
                           />
                         )}
@@ -207,9 +209,9 @@ const styles = StyleSheet.create({
     fontSize: 24,
     textAlign: "center",
     borderBottomColor: Colors.primary,
-    borderBottomWidth: 2,
+    borderBottomWidth: 1,
     borderTopColor: Colors.primary,
-    borderTopWidth: 2,
+    borderTopWidth: 1,
     marginVertical: 5,
     backgroundColor: Colors.secondary,
   },

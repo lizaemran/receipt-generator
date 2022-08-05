@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import Colors from "../constants/colors";
 import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
+import { AntDesign } from '@expo/vector-icons';
 const MainPage = (props) => {
   let TabComponent = TouchableOpacity;
   if (Platform.OS === "android" && Platform.Version >= 21) {
@@ -46,6 +47,18 @@ const MainPage = (props) => {
             <FontAwesome5 name="users" size={24} color="white" />
             <Text style={styles.text} >
                 View Customers
+            </Text>
+            </View>
+          </TabComponent>
+          <TabComponent activeOpacity={0.6} onPress={() =>
+                props.navigation.navigate({
+                  routeName: "ViewAnimalBio",
+                })
+              }>
+            <View style={styles.tab} >
+            <AntDesign name="form" size={24} color="white" />
+            <Text style={styles.text} >
+                View Animals
             </Text>
             </View>
           </TabComponent>
