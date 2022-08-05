@@ -1,14 +1,28 @@
 import React, { useState } from "react";
 import { Button, TextInput, View, Text, StyleSheet } from "react-native";
 import Colors from "../constants/colors";
+import RadioButton from "./RadioButton";
 
 const AnimalInfoForm = (props) => {
   const [nickName, setName] = useState("");
   const [age, setAge] = useState("");
   const [color, setColor] = useState("");
+  const [breed, setBreed] = useState("");
+  const [sex, setSex] = useState("");
   const [nameError, setNameError] = useState("");
   const [ageError, setAgeError] = useState("");
   const [colorError, setColorError] = useState("");
+  const [breedError, setBreedError] = useState("");
+  const PROP = [
+    {
+      key: 'male',
+      text: 'Male',
+    },
+    {
+      key: 'female',
+      text: 'Female',
+    },
+  ];
   const animal = props.animal;
   const animalInfo = props.animalInfo;
   const setAnimalInfo = props.setAnimalInfo;
@@ -27,18 +41,26 @@ const AnimalInfoForm = (props) => {
     } else {
       setAgeError(false);
     }
-    setAge(text.replace("<", ""));
+    setAge(text.replace(/[^0-9]/g, ''));
   };
   const colorHandler = (text) => {
     if (text === "") {
-      setColor(true);
+      setColorError(true);
     } else {
       setColorError(false);
     }
     setColor(text.replace("<", ""));
   };
+  const breedHandler = (text) => {
+    if (text === "") {
+      setBreedError(true);
+    } else {
+      setBreedError(false);
+    }
+    setBreed(text.replace("<", ""));
+  };
   const submitHandler = () => {
-    if (nickName !== "" && color !== "" && age !== "") {
+    if (nickName !== "" && color !== "" && age !== "" && breed !== '') {
       if(animalInfo.length >= 1){
         let newArr = [...animalInfo];
         newArr[index] = {
@@ -46,6 +68,8 @@ const AnimalInfoForm = (props) => {
           name: nickName,
           age: age,
           color: color,
+          breed: breed,
+          sex: sex
         }
         setAnimalInfo(newArr);
       }
@@ -54,6 +78,8 @@ const AnimalInfoForm = (props) => {
         animalInfo[index].name = nickName;
         animalInfo[index].age = age;
         animalInfo[index].color = color;
+        animalInfo[index].breed = breed;
+        animalInfo[index].sex = sex;
         setAnimalInfo([...animalInfo]);
       }
     }
@@ -86,6 +112,7 @@ const AnimalInfoForm = (props) => {
         autoCorrect={false}
         value={age}
         onChangeText={ageHandler}
+        keyboardType='numeric'
         style={{
           borderBottomColor: Colors.primary,
           borderBottomWidth: 1,
@@ -109,6 +136,22 @@ const AnimalInfoForm = (props) => {
         }}
       />
       {colorError ? <Text style={styles.danger}>Enter Valid Color</Text> : null}
+      <TextInput
+        placeholder="Breed"
+        blurOnSubmit
+        autoCapitalize="none"
+        autoCorrect={false}
+        value={breed}
+        onChangeText={breedHandler}
+        style={{
+          borderBottomColor: Colors.primary,
+          borderBottomWidth: 1,
+          padding: 10,
+          marginVertical: 10,
+        }}
+      />
+      {breedError ? <Text style={styles.danger}>Enter Valid Breed</Text> : null}
+      <RadioButton PROP={PROP} sex={sex} setSex={setSex} />
       <Button
         title=" + Add"
         color={Colors.success}
@@ -121,6 +164,7 @@ const AnimalInfoForm = (props) => {
 const styles = StyleSheet.create({
   danger: {
     color: Colors.danger,
+    fontSize: 11
   },
 });
 export default AnimalInfoForm;

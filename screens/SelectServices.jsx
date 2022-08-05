@@ -6,27 +6,30 @@ import {
   View,
   Text,
   ScrollView,
+  TextInput,
   Dimensions,
 } from "react-native";
 import Colors from "../constants/colors";
 import { ANIMALS } from "../data/data";
-
+import { Feather } from "@expo/vector-icons";
 const SelectServices = (props) => {
   const animals = props.navigation.getParam("animals");
   const customer = props.navigation.getParam("customer");
   const [receipt, setReceipt] = useState([]);
+  const [search, setSearch] = useState("");
+  const [searchError, setSearchError] = useState(false);
   const animal_details = animals.map((animal) =>
     ANIMALS.find((a) => a.name === animal.type)
   );
   const isAdded = (id) => {
     let isPresent = false;
-    if(receipt.length > 0){
-      for(let i=0;i<= receipt?.length;i++){
-        if(receipt[i]?.category?.id === id) isPresent = true;
+    if (receipt.length > 0) {
+      for (let i = 0; i <= receipt?.length; i++) {
+        if (receipt[i]?.category?.id === id) isPresent = true;
       }
     }
     return isPresent;
-  }
+  };
   const addServices = (animal, s, m_id, index, category) => {
     setReceipt((current) => [
       ...current,
@@ -36,15 +39,23 @@ const SelectServices = (props) => {
         main_id: m_id,
         category_index: index,
         category: category,
-        animalInfo: animals
+        animalInfo: animals,
       },
     ]);
   };
   const removeCategory = (id) => {
-    setReceipt(current =>
-      current.filter(element => element.category.id !== id)
+    setReceipt((current) =>
+      current.filter((element) => element.category.id !== id)
     );
-  }
+  };
+  const searchHandler = (text) => {
+    if (text === "") {
+      setSearchError(true);
+    } else {
+      setSearchError(false);
+    }
+    setSearch(text.replace("<", ""));
+  };
   return (
     <View style={styles.screen}>
       <View style={styles.servicesRow}>
@@ -55,28 +66,56 @@ const SelectServices = (props) => {
           }
           color={Colors.primary}
         />
-        {receipt.length > 0 && <Button
-          title="Edit Receipt"
-          onPress={() =>
-            props.navigation.navigate({
-              routeName: "EditReceipt",
-              params: {
-                customer: customer,
-                animals: animals,
-                receipt: receipt,
-              },
-            })
-          }
-          color={Colors.primary}
-        />}
+        {receipt.length > 0 && (
+          <Button
+            title="Edit Receipt"
+            onPress={() =>
+              props.navigation.navigate({
+                routeName: "EditReceipt",
+                params: {
+                  customer: customer,
+                  animals: animals,
+                  receipt: receipt,
+                },
+              })
+            }
+            color={Colors.primary}
+          />
+        )}
       </View>
       <ScrollView style={styles.services}>
         <Text>Animal: {animal_details.map((a) => a.name + " ")}</Text>
         <Text>Customer: {customer}</Text>
+        <View>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              
+            }}
+          >
+            <TextInput
+              placeholder="Search..."
+              blurOnSubmit
+              autoCapitalize="none"
+              autoCorrect={false}
+              value={search}
+              onChangeText={searchHandler}
+              style={{
+                padding: 7.5,
+                width: Dimensions.get("window").width * 0.8,
+              }}
+            />
+            <Feather name="search" size={24} color="black" />
+          </View>
+          {searchError ? (
+            <Text style={styles.danger}>Enter Valid Search</Text>
+          ) : null}
+        </View>
         {animal_details.map((a) => (
           <View key={a.name}>
             <Text style={styles.animal}>{a.name}</Text>
-            {a.services?.map((s) => (
+            {a.services?.filter(service => service.title.includes(search)).map((s) => (
               <View key={s.title}>
                 <View>
                   <Text style={styles.title}>{s.title}</Text>
@@ -135,7 +174,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     padding: 5,
     borderColor: Colors.primary,
-    borderWidth: 2,
+    borderWidth: 1,
     marginVertical: 5,
   },
 
@@ -172,7 +211,11 @@ const styles = StyleSheet.create({
     borderTopColor: Colors.primary,
     borderTopWidth: 2,
     marginVertical: 5,
-    backgroundColor: Colors.secondary
+    backgroundColor: Colors.secondary,
   },
+  danger: {
+    color: Colors.danger,
+    fontSize: 11
+  }
 });
 export default SelectServices;

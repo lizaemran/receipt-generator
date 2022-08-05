@@ -4,6 +4,7 @@ export default {
     tertiary : '#A7A7A7',
     header: '#3B72ED',
     headerText: '#424242',
+    card : '#f7cb79',
     active: '#25d366',
     notActive: 'gray',
     danger : 'red',

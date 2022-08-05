@@ -198,6 +198,7 @@ const styles = StyleSheet.create({
   },
   danger: {
     color: Colors.danger,
+    fontSize: 11
   },
   servicesRow: {
     flexDirection: "row",

@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     padding: 10,
     borderColor: Colors.primary,
-    borderWidth: 2,
+    borderWidth: 1,
   },
   screen: {
     backgroundColor: Colors.secondary,
@@ -249,6 +249,7 @@ const styles = StyleSheet.create({
   },
   danger: {
     color: Colors.danger,
+    fontSize: 11
   },
   receiptTile: {
     marginVertical: 20,

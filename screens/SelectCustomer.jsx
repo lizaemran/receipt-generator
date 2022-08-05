@@ -1,13 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, ScrollView, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Button, ScrollView, Dimensions, TextInput } from 'react-native';
 import Colors from "../constants/colors";
 import { CUSTOMER } from '../data/CustomerData';
 import Customer from '../modals/Customer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { Feather } from "@expo/vector-icons";
 const SelectCustomer = props => {
   const animals =  props.navigation.getParam('animals');
+  const [search, setSearch] = useState("");
+  const [searchError, setSearchError] = useState(false);
   useEffect(() => {
     const getData = async () => {
     try {
@@ -24,13 +26,48 @@ const SelectCustomer = props => {
   }
     getData();
   },[])
+  const searchHandler = (text) => {
+    if (text === "") {
+      setSearchError(true);
+    } else {
+      setSearchError(false);
+    }
+    setSearch(text.replace("<", ""));
+  };
   return (
     <View style={styles.screen}>
       <View style={styles.button}>
             <Button title='Back To Animal Info' onPress={() => props.navigation.navigate({routeName: 'AnimalInfo'})} color={Colors.primary} />
       </View>
+      <View>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              borderColor: Colors.primary,
+              borderBottomWidth: 1
+            }}
+          >
+            <TextInput
+              placeholder="Search..."
+              blurOnSubmit
+              autoCapitalize="none"
+              autoCorrect={false}
+              value={search}
+              onChangeText={searchHandler}
+              style={{
+                padding: 7.5,
+                width: Dimensions.get("window").width * 0.8,
+              }}
+            />
+            <Feather name="search" size={24} color="black" />
+          </View>
+          {searchError ? (
+            <Text style={styles.danger}>Enter Valid Search</Text>
+          ) : null}
+        </View>
       <ScrollView>
-        {CUSTOMER.map((a) => 
+        {CUSTOMER.filter(customer => customer.name.includes(search)).map((a) => 
           <Text style={styles.name} key={a.id} onPress={() => props.navigation.navigate({
             routeName: 'SelectServices',
             params: {
@@ -68,14 +105,17 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     textAlign: "center",
     textTransform: "capitalize",
-    backgroundColor: Colors.primary,
+    backgroundColor: Colors.card,
     paddingHorizontal: 10,
     fontSize: 18,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    paddingVertical: 20,
+    paddingVertical: 15,
     width: Dimensions.get('window').width * 0.9,
-
+  },
+  danger: {
+    color: Colors.danger,
+    fontSize: 11
   }
 });
 

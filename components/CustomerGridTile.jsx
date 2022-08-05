@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'flex-start',
         borderColor: Colors.primary,
-        borderWidth:  2, 
+        borderWidth:  1, 
     },
     container: {
         justifyContent: 'flex-start',

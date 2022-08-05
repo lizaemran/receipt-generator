@@ -71,7 +71,7 @@ const Navigator = createStackNavigator({
           <Image
             source={require("../assets/bg.png")}
             style={{
-              width: "100%",
+              width: "105%",
               height: 150,
               
             }}

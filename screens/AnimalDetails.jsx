@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         paddingHorizontal: 10,
         borderColor: Colors.primary,
-        borderWidth:  2,
+        borderWidth:  1,
         width: '100%'
     },
     screen: {
@@ -203,7 +203,8 @@ const styles = StyleSheet.create({
       marginTop: 5
     },
     danger: {
-      color: Colors.danger
+      color: Colors.danger,
+      fontSize: 11
     }
 });
 

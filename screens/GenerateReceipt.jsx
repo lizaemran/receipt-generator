@@ -7,6 +7,7 @@ import {
   Text,
   Dimensions,
   Image,
+  ScrollView,
 } from "react-native";
 import * as Sharing from "expo-sharing";
 import Colors from "../constants/colors";
@@ -67,21 +68,6 @@ const GenerateReceipt = (props) => {
   };
   var d = new Date();
   d = d.getDate() + "/" + d.getMonth() + "/" + d.getFullYear();
-  const formatAMPM = (date) => {
-    let hours = date.getHours();
-    let minutes = date.getMinutes();
-    const ampm = hours >= 12 ? "pm" : "am";
-
-    hours %= 12;
-    hours = hours || 12;
-    minutes = minutes < 10 ? `0${minutes}` : minutes;
-
-    const strTime = `${hours}:${minutes} ${ampm}`;
-
-    return strTime;
-  };
-
-  var time = formatAMPM(new Date());
   return (
     <View style={styles.screen}>
       <View style={styles.servicesRow}>
@@ -108,66 +94,78 @@ const GenerateReceipt = (props) => {
         options={{ fileName: "Your-File-Name", format: "jpg", quality: 0.9 }}
         style={styles.receipt}
       >
-        <View style={{justifyContent: 'center', alignItems: 'center'}}>
-        <Image source={require('../assets/logo.jpg')} style={styles.logo} />
+        <View style={{ justifyContent: "center", alignItems: "center" }}>
+          <Image source={require("../assets/logo.jpg")} style={styles.logo} />
         </View>
-        <View style={styles.servicesRow}>
-          <Text>Date: {d}</Text>
-          <Text>Time: {time}</Text>
-        </View>
+        <Text>Date: {d}</Text>
         {customer_details.map((c) => (
           <Text key={c.phone} style={{ fontWeight: "700" }}>
             Customer: {c.name}
-            {"(" + c.phone + ")"}
           </Text>
         ))}
+        <View>
+          {animals.map((a) => (
+            <View key={a.name} style={styles.animals}>
+              <Text style={styles.info}>{a.type}</Text>
+              <Text style={styles.info}>{a.name}</Text>
+              <Text style={styles.info}>{a.sex}</Text>
+              <Text style={styles.info}>Age: {a.age}</Text>
+              <Text style={styles.info}>{a.breed}</Text>
+              <Text style={styles.info}>{a.color}</Text>
+            </View>
+          ))}
+        </View>
         <Text>Services: {receipt?.length}</Text>
-        {receipt?.map((r, index) => (
-          <View key={index}>
-            <Text
-              style={{
-                fontSize: 18,
-                fontWeight: "600",
-                textTransform: "capitalize",
-              }}
-            >
-              {index + 1}. {r?.service}
-            </Text>
-            <View style={styles.servicesRow}>
-              <Text>
-                {r.category.type}
-                {"(" + r.category.id + ")"}
+        <ScrollView>
+          {receipt?.map((r, index) => (
+            <View key={index}>
+              <Text
+                style={{
+                  fontSize: 18,
+                  fontWeight: "600",
+                  textTransform: "capitalize",
+                }}
+              >
+                {index + 1}. {r?.service}
               </Text>
-              <Text>X{r.category.quantity}</Text>
-              {r.category.newPrice ? (
-                <View>
-                  <View style={{ flexDirection: "row", alignItems: "center" }}>
-                    <Text style={{ textDecorationLine: "line-through" }}>
-                      {Number(r.category.newPrice) +
-                        Number(r.category.discount)}
-                    </Text>
-                    <Text
-                      style={{
-                        fontSize: 11,
-                        color: Colors.danger,
-                        marginLeft: 3,
-                      }}
+              <View style={styles.servicesRow}>
+                <Text>
+                  {r.category.type}
+                  {"(" + r.category.id + ")"}
+                </Text>
+                <Text>X{r.category.quantity}</Text>
+                {r.category.newPrice ? (
+                  <View>
+                    <View
+                      style={{ flexDirection: "row", alignItems: "center" }}
                     >
-                      {r.category.discount}
+                      <Text style={{ textDecorationLine: "line-through" }}>
+                        {Number(r.category.newPrice) +
+                          Number(r.category.discount)}
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: 11,
+                          color: Colors.danger,
+                          marginLeft: 3,
+                        }}
+                      >
+                        {r.category.discount}
+                      </Text>
+                    </View>
+                    <Text style={{ fontWeight: "700" }}>
+                      Rs. {r.category.newPrice}
                     </Text>
                   </View>
+                ) : (
                   <Text style={{ fontWeight: "700" }}>
-                    Rs. {r.category.newPrice}
+                    Rs. {r.category.price}
                   </Text>
-                </View>
-              ) : (
-                <Text style={{ fontWeight: "700" }}>
-                  Rs. {r.category.price}
-                </Text>
-              )}
+                )}
+              </View>
             </View>
-          </View>
-        ))}
+          ))}
+        </ScrollView>
         <View style={styles.servicesRowTotal}>
           <Text>Total</Text>
           <Text>Rs. {total}</Text>
@@ -202,7 +200,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     padding: 10,
     borderColor: Colors.primary,
-    borderWidth: 2,
+    borderWidth: 1,
     width: Dimensions.get("window").width * 0.945,
   },
   servicesRow: {
@@ -217,10 +215,24 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     alignItems: "center",
     borderTopColor: Colors.primary,
-    borderBottomColor: 'transparent',
-    borderLeftColor: 'transparent',
-    borderRightColor: 'transparent',
-    borderWidth: 2
+    borderBottomColor: "transparent",
+    borderLeftColor: "transparent",
+    borderRightColor: "transparent",
+    borderWidth: 1,
   },
+  animals: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: Colors.primary,
+    color: "white",
+    borderRadius: 5,
+    marginVertical: 5,
+    padding: 5,
+  },
+  info: {
+    textTransform: 'capitalize',
+    color: 'white'
+  }
 });
 export default GenerateReceipt;

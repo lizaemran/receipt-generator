@@ -336,7 +336,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   danger: {
-    color: Colors.danger
+    color: Colors.danger,
+    fontSize: 11
   }
 });
 

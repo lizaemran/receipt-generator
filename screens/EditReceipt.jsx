@@ -54,7 +54,7 @@ const EditReceipt = (props) => {
     } else {
       setDiscountError(false);
     }
-    setDiscount(text.replace("<", ""));
+    setDiscount(text.replace(/[^0-9]/g, ''));
   };
   const doneDiscount = (id) => {
     if (receipt.length > 0 && discount !== "") {
@@ -135,6 +135,7 @@ const EditReceipt = (props) => {
                   autoCapitalize="none"
                   autoCorrect={false}
                   value={discount}
+                  keyboardType='numeric'
                   onChangeText={discountHandler}
                   style={{
                     borderBottomColor: Colors.primary,
@@ -209,7 +210,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     padding: 10,
     borderColor: Colors.primary,
-    borderWidth: 2,
+    borderWidth: 1,
   },
   screen: {
     backgroundColor: Colors.secondary,
@@ -251,22 +252,19 @@ const styles = StyleSheet.create({
   },
   danger: {
     color: Colors.danger,
+    fontSize: 11
   },
   incrementQuantity: {
     backgroundColor: Colors.success,
-    paddingVertical: 5,
-    borderRadius: 100,
+    borderRadius: 50,
     color: "white",
     paddingHorizontal: 10,
-    fontSize: 18,
   },
   decrementQuantity: {
     backgroundColor: Colors.danger,
-    paddingVertical: 5,
-    borderRadius: 100,
+    borderRadius: 50,
     color: "white",
     paddingHorizontal: 10,
-    fontSize: 18,
   },
 });
 
