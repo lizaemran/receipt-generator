@@ -109,6 +109,12 @@ const ViewAnimalBio = (props) => {
     }
     setAnimalAge(text.replace("<", ""));
   };
+  const getAge = (birthYear) => {
+    var currentDate = new Date();
+      var currentYear = currentDate.getFullYear();
+      let age = currentYear - birthYear;
+      return age;
+  }
   const addAnimalBio = async () => {
     if (
       animalTypeError ||
@@ -122,12 +128,14 @@ const ViewAnimalBio = (props) => {
         { text: "Okay", style: "destructive" },
       ]);
     } else {
+      let age = getAge(animalAge.split('-')[2]);
+      console.log(age);
       ANIMALBIO.push(
         new AnimalBio(
           ANIMALBIO.length + 1,
           animalName,
           animalType,
-          animalAge,
+          age,
           animalColor,
           sex,
           animalBreed

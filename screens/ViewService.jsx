@@ -12,6 +12,7 @@ import PriceInput from "../components/PriceInput";
 import Colors from "../constants/colors";
 import { ANIMALS } from "../data/data";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Entypo } from "@expo/vector-icons";
 const ViewService = (props) => {
   const selectedAnimal = props.navigation.getParam("selectedAnimal");
   const service = props.navigation.getParam("service");
@@ -209,11 +210,14 @@ const ViewService = (props) => {
             />
           </View>
         ) : (
-          <Button
-            title="Edit"
-            onPress={() => setIsEdit(true)}
-            color={Colors.primary}
-          />
+          <Text style={styles.edit}>
+              <Entypo
+                name="edit"
+                size={18}
+                color="white"
+                onPress={() => setIsEdit(true)}
+              />
+            </Text>
         )}
       </View>
       {isAddMain ? (
@@ -338,7 +342,12 @@ const styles = StyleSheet.create({
   danger: {
     color: Colors.danger,
     fontSize: 11
-  }
+  },
+  edit: {
+    backgroundColor: Colors.success,
+    padding: 5,
+    borderRadius: 5,
+  },
 });
 
 export default ViewService;

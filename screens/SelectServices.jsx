@@ -84,7 +84,7 @@ const SelectServices = (props) => {
         )}
       </View>
       <ScrollView style={styles.services}>
-        <Text>Animal: {animal_details.map((a) => a?.name + " ")}</Text>
+        <Text>Animal: {animal_details.map((a) => <Text key={a?.name}>{a?.name}</Text> + " ")}</Text>
         <Text>Customer: {customer}</Text>
         <View>
           <View
@@ -123,10 +123,10 @@ const SelectServices = (props) => {
                   <Text style={styles.title}>{s.title}</Text>
                 </View>
                 {s.mainCategory.map((m) => (
-                  <View key={m.type}>
+                  <View key={m.id}>
                     <Text style={styles.main}>{m.type}</Text>
                     {m.subCategory.map((c, index) => (
-                      <View key={c.type} style={styles.servicesRow}>
+                      <View key={c.id} style={styles.servicesRow}>
                         <Text>{c.type}</Text>
                         {isAdded(c.id) ? (
                           <Button

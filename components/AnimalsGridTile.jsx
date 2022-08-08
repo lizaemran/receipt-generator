@@ -11,7 +11,7 @@ const AnimalsGridTile = props => {
         </View>
         <View style={styles.servicesRow}>
             <TouchableOpacity>
-                <Button title='View' onPress={props.onSelect} color={Colors.primary} style={styles.button} />
+                <Button title='View' onPress={props.onChoose} color={Colors.primary} style={styles.button} />
             </TouchableOpacity>
             <TouchableOpacity>
                 <Button title="Delete" onPress={props.onDelete} color={Colors.danger} style={styles.button} />

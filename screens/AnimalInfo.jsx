@@ -115,7 +115,6 @@ const AnimalInfo = (props) => {
     }
     setSearch(text.replace("<", ""));
   };
-  console.log(animalInfo);
   return (
     <View style={styles.screen}>
       <View style={styles.servicesRow}>
@@ -126,7 +125,6 @@ const AnimalInfo = (props) => {
           }
           color={Colors.primary}
         />
-        {animals.length === animalInfo.length && (
           <Button
             title="Next"
             onPress={() =>
@@ -139,7 +137,6 @@ const AnimalInfo = (props) => {
             }
             color={Colors.primary}
           />
-        )}
       </View>
       {isNew ? (
         <View>
@@ -222,7 +219,7 @@ const AnimalInfo = (props) => {
           ))}
         </ScrollView>
       ) : (
-        <View>
+        <ScrollView>
           <Text
             style={{
               fontSize: 18,
@@ -263,7 +260,6 @@ const AnimalInfo = (props) => {
             <Text style={styles.danger}>Enter Valid Search</Text>
           ) : null}
         </View>
-          <ScrollView>
             {matchedAnimals.length > 0 ? (
               <View>
                 {matchedAnimals.filter(matched => matched.name.includes(search)).map((a) => (
@@ -318,8 +314,7 @@ const AnimalInfo = (props) => {
                 ))}
               </View>
             ) : null}
-          </ScrollView>
-        </View>
+        </ScrollView>
       )}
     </View>
   );

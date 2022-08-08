@@ -8,6 +8,7 @@ import {
   ScrollView,
   TextInput,
   KeyboardAvoidingView,
+  Alert,
 } from "react-native";
 import Colors from "../constants/colors";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -29,16 +30,30 @@ const AnimalBioDetails = (props) => {
   const [animalColorError, setAnimalColorError] = useState(false);
   const animal_id = props.navigation.getParam("animalId");
   const selectedAnimalBio = ANIMALBIO.find((a) => a.id === animal_id);
-  const deleteAnimalBio = async () => {
-    ANIMALBIO.splice(animal_id - 1, 1);
-    try {
-      const data = JSON.stringify(ANIMALBIO);
-      await AsyncStorage.setItem("AnimalBio", data);
-      alert("Data successfully saved after deleting!");
-      props.navigation.navigate({ routeName: "MainPage" });
-    } catch (e) {
-      alert("Failed to save data.");
-    }
+  const deleteAnimalBio = () => {
+    Alert.alert(
+      "Confirmation",
+      `Are you sure you want to remove ${selectedAnimalBio.name}?`,
+      [
+        {
+          text: "Yes",
+          onPress: async () => {
+            ANIMALBIO.splice(animal_id - 1, 1);
+            try {
+              const data = JSON.stringify(ANIMALBIO);
+              await AsyncStorage.setItem("AnimalBio", data);
+              alert("Data successfully saved after deleting!");
+              props.navigation.navigate({ routeName: "MainPage" });
+            } catch (e) {
+              alert("Failed to save data.");
+            }
+          },
+        },
+        {
+          text: "No",
+        },
+      ]
+    );
   };
   const animalTypeHandler = (text) => {
     if (text === "") {
@@ -88,6 +103,12 @@ const AnimalBioDetails = (props) => {
     }
     setAnimalAge(text.replace("<", ""));
   };
+  const getAge = (birthYear) => {
+    var currentDate = new Date();
+      var currentYear = currentDate.getFullYear();
+      age = currentYear - birthYear;
+      return age;
+  }
   const EditHandler = async () => {
     setIsEdit(false);
     if (
@@ -98,10 +119,12 @@ const AnimalBioDetails = (props) => {
       animalBreed !== "" &&
       animalColor !== ""
     ) {
+      let age = getAge(animalAge.split('-')[2]);
+      console.log(age);
       ANIMALBIO[animal_id - 1].type = animalType;
       ANIMALBIO[animal_id - 1].name = animalName;
       ANIMALBIO[animal_id - 1].sex = animalSex;
-      ANIMALBIO[animal_id - 1].age = animalAge;
+      ANIMALBIO[animal_id - 1].age = age;
       ANIMALBIO[animal_id - 1].breed = animalBreed;
       ANIMALBIO[animal_id - 1].color = animalColor;
       try {

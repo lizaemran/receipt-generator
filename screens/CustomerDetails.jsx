@@ -7,10 +7,12 @@ import {
   Dimensions,
   ScrollView,
   TextInput,
+  Alert,
 } from "react-native";
 import Colors from "../constants/colors";
 import { CUSTOMER } from "../data/CustomerData";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Entypo } from "@expo/vector-icons";
 const CustomerDetails = (props) => {
   const [isEdit, setIsEdit] = useState(false);
   const [name, setName] = useState("");
@@ -20,15 +22,29 @@ const CustomerDetails = (props) => {
   const customer_id = props.navigation.getParam("customerId");
   const selectedCustomer = CUSTOMER.find((a) => a.id === customer_id);
   const deleteCustomer = async () => {
-    CUSTOMER.splice(customer_id - 1, 1);
-    try {
-      const data = JSON.stringify(CUSTOMER);
-      await AsyncStorage.setItem("Customers", data);
-      alert("Data successfully saved after deleting!");
-      props.navigation.navigate({ routeName: "MainPage" });
-    } catch (e) {
-      alert("Failed to save data.");
-    }
+    Alert.alert(
+      "Confirmation",
+      `Are you sure you want to remove ${selectedCustomer.name}?`,
+      [
+        {
+          text: "Yes",
+          onPress: async () => {
+            CUSTOMER.splice(customer_id - 1, 1);
+            try {
+              const data = JSON.stringify(CUSTOMER);
+              await AsyncStorage.setItem("Customers", data);
+              alert("Data successfully saved after deleting!");
+              props.navigation.navigate({ routeName: "MainPage" });
+            } catch (e) {
+              alert("Failed to save data.");
+            }
+          },
+        },
+        {
+          text: "No",
+        },
+      ]
+    );
   };
   const nameHandler = (text) => {
     if (text === "") {
@@ -89,11 +105,14 @@ const CustomerDetails = (props) => {
               />
             </View>
           ) : (
-            <Button
-              title="Edit"
-              onPress={() => setIsEdit(true)}
-              color={Colors.primary}
-            />
+            <Text style={styles.edit}>
+              <Entypo
+                name="edit"
+                size={18}
+                color="white"
+                onPress={() => setIsEdit(true)}
+              />
+            </Text>
           )}
         </View>
         <Text style={styles.smalltext}>
@@ -249,13 +268,18 @@ const styles = StyleSheet.create({
   },
   danger: {
     color: Colors.danger,
-    fontSize: 11
+    fontSize: 11,
   },
   receiptTile: {
     marginVertical: 20,
     backgroundColor: Colors.secondary,
     borderRadius: 5,
     padding: 5,
+  },
+  edit: {
+    backgroundColor: Colors.success,
+    padding: 5,
+    borderRadius: 5,
   },
 });
 

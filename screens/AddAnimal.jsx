@@ -65,26 +65,13 @@ const AddAnimal = (props) => {
       setIsAddNew(false);
     }
   };
-  const deleteAnimal = async (id) => {
-    ANIMALS.splice(id - 1, 1);
-    try {
-      const data = JSON.stringify(ANIMALS);
-      await AsyncStorage.setItem("Animals", data);
-      alert("Data successfully saved after deleting!");
-      props.navigation.navigate({
-        routeName: "MainPage",
-      });
-    } catch (e) {
-      alert("Failed to save data.");
-    }
-  };
   const renderGridItem = (itemData) => {
     return (
       <AnimalsGridTile
         id={itemData.item.id}
         name={itemData.item.name}
         services={itemData.item.services}
-        onSelect={() =>
+        onChoose={() =>
           props.navigation.navigate({
             routeName: "AnimalDetails",
             params: {
@@ -92,16 +79,33 @@ const AddAnimal = (props) => {
             },
           })
         }
-        onDelete={() =>
-          Alert.alert("Confirmation", "Confirm delete", [
-            {
-              text: "Yes",
-              onPress: deleteAnimal(itemData.item.id),
-              style: "cancel",
-            },
-            { text: "Cancel", style: "destructive" },
-          ])
-        }
+        onDelete={async () => {
+          Alert.alert(
+            "Confirmation",
+            `Are you sure you want to delete?`,
+            [
+              {
+                text: "Yes",
+                onPress: async () => {
+                  ANIMALS.splice(itemData.item.id - 1, 1);
+                  try {
+                    const data = JSON.stringify(ANIMALS);
+                    await AsyncStorage.setItem("Animals", data);
+                    alert("Data successfully saved after deleting!");
+                    props.navigation.navigate({
+                      routeName: "MainPage",
+                    });
+                  } catch (e) {
+                    alert("Failed to save data.");
+                  }
+                },
+              },
+              {
+                text: "No",
+              },
+            ]
+          );
+        }}
       />
     );
   };
@@ -198,7 +202,7 @@ const styles = StyleSheet.create({
   },
   danger: {
     color: Colors.danger,
-    fontSize: 11
+    fontSize: 11,
   },
   servicesRow: {
     flexDirection: "row",

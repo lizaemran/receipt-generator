@@ -89,6 +89,7 @@ const GenerateReceipt = (props) => {
           color={Colors.primary}
         />
       </View>
+      <ScrollView>
       <ViewShot
         ref={ref}
         options={{ fileName: "Your-File-Name", format: "jpg", quality: 0.9 }}
@@ -116,7 +117,6 @@ const GenerateReceipt = (props) => {
           ))}
         </View>
         <Text>Services: {receipt?.length}</Text>
-        <ScrollView>
           {receipt?.map((r, index) => (
             <View key={index}>
               <Text
@@ -165,12 +165,12 @@ const GenerateReceipt = (props) => {
               </View>
             </View>
           ))}
-        </ScrollView>
         <View style={styles.servicesRowTotal}>
           <Text>Total</Text>
           <Text>Rs. {total}</Text>
         </View>
       </ViewShot>
+      </ScrollView>
       <StatusBar style="auto" />
     </View>
   );
