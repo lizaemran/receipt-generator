@@ -6,11 +6,10 @@ const RadioButton = (props) => {
   const sex = props.sex;
   const setSex = props.setSex;
   return (
-    <View>
+    <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
       {PROP.map((res) => {
         return (
           <View key={res.key} style={styles.container}>
-            <Text style={styles.radioText}>{res.text}</Text>
             <TouchableOpacity
               style={styles.radioCircle}
               onPress={() => {
@@ -19,6 +18,7 @@ const RadioButton = (props) => {
             >
               {sex === res.key && <View style={styles.selectedRb} />}
             </TouchableOpacity>
+            <Text style={styles.radioText}>{res.text}</Text>
           </View>
         );
       })}
@@ -27,13 +27,13 @@ const RadioButton = (props) => {
 };
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 20,
+    marginBottom: 10,
     alignItems: "center",
     flexDirection: "row",
-    justifyContent: "space-between",
   },
   radioText: {
     marginRight: 35,
+    marginLeft: 5,
     color: "#000",
   },
   radioCircle: {

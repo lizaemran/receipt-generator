@@ -39,6 +39,24 @@ const ViewAnimalBio = (props) => {
       text: 'Female',
     },
   ];
+  const TYPEPROP = [
+    {
+      key: 'cat',
+      text: 'Cat',
+    },
+    {
+      key: 'dog',
+      text: 'Dog',
+    },
+    {
+      key: 'rabbit',
+      text: 'Rabbit',
+    },
+    {
+      key: 'bird',
+      text: 'Bird',
+    }
+  ];
   useEffect(() => {
     const getData = async () => {
       try {
@@ -208,6 +226,7 @@ const ViewAnimalBio = (props) => {
       {isAddNew ? (
         <View style={styles.detailItem}>
           <View style={styles.input}>
+          <RadioButton PROP={TYPEPROP} sex={animalType} setSex={setAnimalType} />
             <TextInput
               placeholder="Oreo"
               blurOnSubmit
@@ -219,28 +238,11 @@ const ViewAnimalBio = (props) => {
                 borderBottomColor: Colors.primary,
                 borderBottomWidth: 1,
                 padding: 10,
-                marginVertical: 10,
+                marginBottom: 10,
               }}
             />
             {animalNameError ? (
               <Text style={styles.danger}>Enter Valid Animal Name</Text>
-            ) : null}
-            <TextInput
-              placeholder="cat"
-              blurOnSubmit
-              autoCapitalize="none"
-              autoCorrect={false}
-              value={animalType}
-              onChangeText={animalTypeHandler}
-              style={{
-                borderBottomColor: Colors.primary,
-                borderBottomWidth: 1,
-                padding: 10,
-                marginVertical: 10,
-              }}
-            />
-            {animalTypeError ? (
-              <Text style={styles.danger}>Enter Valid Animal Type</Text>
             ) : null}
             <TextInput
               placeholder="12-01-2000"
@@ -304,7 +306,7 @@ const ViewAnimalBio = (props) => {
           </View>
         </View>
       ) : null}
-      {animalBioData.length > 0 ? (
+      {!isAddNew ? animalBioData.length > 0 ? (
         <FlatList
           keyExtractor={(item, index) => item.id}
           numColumns={0}
@@ -313,7 +315,7 @@ const ViewAnimalBio = (props) => {
         />
       ) : (
         <Text>No Animals Bio Added Yet</Text>
-      )}
+      ) : null}
       <StatusBar style="auto" />
     </View>
   );

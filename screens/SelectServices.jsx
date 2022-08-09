@@ -19,7 +19,7 @@ const SelectServices = (props) => {
   const [search, setSearch] = useState("");
   const [searchError, setSearchError] = useState(false);
   const animal_details = animals.map((animal) =>
-    ANIMALS.find((a) => (a?.name).toLowerCase() === (animal.type).toLowerCase())
+    ANIMALS.find((a) => (a?.name).toLowerCase() === animal.type.toLowerCase())
   );
   const isAdded = (id) => {
     let isPresent = false;
@@ -84,7 +84,9 @@ const SelectServices = (props) => {
         )}
       </View>
       <ScrollView style={styles.services}>
-        <Text>Animal: {animal_details.map((a) => <Text key={a?.name}>{a?.name}</Text> + " ")}</Text>
+        {animals.map((a,index) => (
+          <Text key={a.name+index}>Animal: {a?.name + " "}</Text>
+        ))}
         <Text>Customer: {customer}</Text>
         <View>
           <View
@@ -117,38 +119,40 @@ const SelectServices = (props) => {
         {animal_details.map((a) => (
           <View key={a?.name}>
             <Text style={styles.animal}>{a?.name}</Text>
-            {a?.services?.filter(service => service.title.includes(search)).map((s) => (
-              <View key={s.title}>
-                <View>
-                  <Text style={styles.title}>{s.title}</Text>
-                </View>
-                {s.mainCategory.map((m) => (
-                  <View key={m.id}>
-                    <Text style={styles.main}>{m.type}</Text>
-                    {m.subCategory.map((c, index) => (
-                      <View key={c.id} style={styles.servicesRow}>
-                        <Text>{c.type}</Text>
-                        {isAdded(c.id) ? (
-                          <Button
-                            title="Remove"
-                            color={Colors.danger}
-                            onPress={() => removeCategory(c.id)}
-                          />
-                        ) : (
-                          <Button
-                            title="+ Add"
-                            color={Colors.success}
-                            onPress={() =>
-                              addServices(a?.name, s.title, m.id, index, c)
-                            }
-                          />
-                        )}
-                      </View>
-                    ))}
+            {a?.services
+              ?.filter((service) => service.title.includes(search))
+              .map((s) => (
+                <View key={s.title}>
+                  <View>
+                    <Text style={styles.title}>{s.title}</Text>
                   </View>
-                ))}
-              </View>
-            ))}
+                  {s.mainCategory.map((m) => (
+                    <View key={m.id}>
+                      <Text style={styles.main}>{m.type}</Text>
+                      {m.subCategory.map((c, index) => (
+                        <View key={c.id} style={styles.servicesRow}>
+                          <Text>{c.type}</Text>
+                          {isAdded(c.id) ? (
+                            <Button
+                              title="Remove"
+                              color={Colors.danger}
+                              onPress={() => removeCategory(c.id)}
+                            />
+                          ) : (
+                            <Button
+                              title="+ Add"
+                              color={Colors.success}
+                              onPress={() =>
+                                addServices(a?.name, s.title, m.id, index, c)
+                              }
+                            />
+                          )}
+                        </View>
+                      ))}
+                    </View>
+                  ))}
+                </View>
+              ))}
           </View>
         ))}
       </ScrollView>
@@ -174,7 +178,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     elevation: 2,
     backgroundColor: "white",
-    padding: 5,
+    padding: 10,
     borderColor: Colors.primary,
     borderWidth: 1,
     marginVertical: 5,
@@ -217,7 +221,7 @@ const styles = StyleSheet.create({
   },
   danger: {
     color: Colors.danger,
-    fontSize: 11
-  }
+    fontSize: 11,
+  },
 });
 export default SelectServices;

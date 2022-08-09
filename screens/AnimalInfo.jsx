@@ -150,7 +150,7 @@ const AnimalInfo = (props) => {
         <View>
           <Button
             title=" + Add New"
-            color={Colors.primary}
+            color={Colors.success}
             onPress={() => setIsNew(true)}
           />
         </View>
@@ -219,7 +219,7 @@ const AnimalInfo = (props) => {
           ))}
         </ScrollView>
       ) : (
-        <ScrollView>
+        <View>
           <Text
             style={{
               fontSize: 18,
@@ -261,7 +261,7 @@ const AnimalInfo = (props) => {
           ) : null}
         </View>
             {matchedAnimals.length > 0 ? (
-              <View>
+              <ScrollView>
                 {matchedAnimals.filter(matched => matched.name.includes(search)).map((a) => (
                   <TouchableOpacity key={a.id} onPress={() => submitHandler(a)}>
                     <View style={styles.name}>
@@ -312,9 +312,9 @@ const AnimalInfo = (props) => {
                     </View>
                   </TouchableOpacity>
                 ))}
-              </View>
+              </ScrollView>
             ) : null}
-        </ScrollView>
+        </View>
       )}
     </View>
   );
@@ -327,19 +327,11 @@ AnimalInfo.navigationOptions = (navigationData) => {
 };
 
 const styles = StyleSheet.create({
-  detailItem: {
-    marginVertical: 5,
-    borderRadius: 10,
-    elevation: 2,
-    backgroundColor: "white",
-    padding: 10,
-    borderColor: Colors.primary,
-    borderWidth: 1,
-  },
   screen: {
     backgroundColor: Colors.secondary,
     flex: 1,
-    paddingVertical: 90,
+    paddingTop: 100,
+    paddingBottom: 160,
     paddingHorizontal: 10,
   },
   button: {
@@ -367,7 +359,7 @@ const styles = StyleSheet.create({
   infoRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingVertical: 5,
+    paddingVertical: 1,
     alignItems: "center",
     borderTopColor: Colors.primary,
     borderTopWidth: 1,
