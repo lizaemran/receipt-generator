@@ -93,9 +93,8 @@ const SelectServices = (props) => {
             style={{
               flexDirection: "row",
               alignItems: "center",
-              borderColor: Colors.primary,
-              borderTopWidth: 1,
               borderRadius: 5,
+              backgroundColor: 'white'
             }}
           >
             <TextInput
@@ -107,7 +106,7 @@ const SelectServices = (props) => {
               onChangeText={searchHandler}
               style={{
                 padding: 7.5,
-                width: Dimensions.get("window").width * 0.8,
+                width: Dimensions.get("window").width * 0.90,
               }}
             />
             <Feather name="search" size={24} color="black" />
@@ -174,21 +173,18 @@ const styles = StyleSheet.create({
     paddingTop: 90,
     paddingHorizontal: 10,
   },
-  services: {
+  servicesRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingVertical: 5,
+    alignItems: "center",
+    marginVertical: 5,
     borderRadius: 10,
     elevation: 2,
     backgroundColor: "white",
     padding: 10,
     borderColor: Colors.primary,
     borderWidth: 1,
-    marginVertical: 5,
-  },
-
-  servicesRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingVertical: 5,
-    alignItems: "center",
   },
   select: {
     paddingHorizontal: 10,
@@ -217,7 +213,6 @@ const styles = StyleSheet.create({
     borderTopColor: Colors.primary,
     borderTopWidth: 1,
     marginVertical: 5,
-    backgroundColor: Colors.secondary,
   },
   danger: {
     color: Colors.danger,

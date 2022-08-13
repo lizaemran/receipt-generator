@@ -85,6 +85,7 @@ const ViewCustomers = (props) => {
         ]);
         setCustomer("");
         setCustomerPhone("");
+        props.navigation.navigate({ routeName: "MainPage" })
       }
     }
   };

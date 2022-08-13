@@ -97,7 +97,6 @@ const AnimalDetails = props => {
       <ScrollView style={styles.detailItem}>
       <Text style={styles.smalltext}>ID: {selectedAnimal.id}</Text>
         <Text style={styles.smalltext}>Name: {selectedAnimal.name}</Text>
-        <Text style={styles.smalltext}>Services: </Text>
         {selectedAnimal?.services?.length > 0 ? selectedAnimal?.services?.map((s, index) => 
         <View key={s.title} style={styles.serviceRow}>
           <Text  style={styles.services}>
@@ -163,13 +162,13 @@ AnimalDetails.navigationOptions = (navigationData) => {
 
 const styles = StyleSheet.create({
     detailItem: {
-        borderRadius: 10,
-        elevation: 2,
-        backgroundColor: 'white',
-        paddingHorizontal: 10,
-        borderColor: Colors.primary,
-        borderWidth:  1,
-        width: '100%'
+        // borderRadius: 10,
+        // elevation: 2,
+        // backgroundColor: 'white',
+        // paddingHorizontal: 10,
+        // borderColor: Colors.primary,
+        // borderWidth:  1,
+        // width: '100%'
     },
     screen: {
         backgroundColor:Colors.secondary,
@@ -193,7 +192,15 @@ const styles = StyleSheet.create({
     serviceRow:{
       flexDirection: "row",
       justifyContent: "space-between",
+      alignItems: 'center',
       paddingVertical: 5,
+      marginVertical: 5,
+      borderRadius: 10,
+      elevation: 2,
+      backgroundColor: "white",
+      padding: 10,
+      borderColor: Colors.primary,
+      borderWidth: 1,
     },
     services: {
       textTransform: 'capitalize'

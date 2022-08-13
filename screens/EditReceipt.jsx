@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Text,
   View,
@@ -14,13 +14,17 @@ import { ANIMALS } from "../data/data";
 const EditReceipt = (props) => {
   const customer = props.navigation.getParam("customer");
   const receiptParam = props.navigation.getParam("receipt");
-  const [receipt, setReceipt] = useState(receiptParam);
+  const [receipt, setReceipt] = useState([]);
   const [discount, setDiscount] = useState("");
   const [discountError, setDiscountError] = useState(false);
   const [discountArr, setDiscountArr] = useState([]);
   const animals = props.navigation.getParam("animals");
+  useEffect(() => {
+    const temp = [...receiptParam]
+    setReceipt(temp);
+  },[])
   const animal_details = animals.map((animal) =>
-  ANIMALS.find((a) => (a?.name).toLowerCase() === (animal.type).toLowerCase())
+    ANIMALS.find((a) => (a?.name).toLowerCase() === animal.type.toLowerCase())
   );
   const incrementQuantity = (id) => {
     if (receipt.length > 0) {
@@ -38,13 +42,12 @@ const EditReceipt = (props) => {
       const index = receipt.findIndex((r) => r.category.id === id);
       if (receipt[index].category.quantity > 1) {
         receipt[index].category.quantity -= 1;
-        let newPrice =
-          receipt[index].category.quantity * receipt[index].category.price;
+        let newPrice = receipt[index].category.quantity * receipt[index].category.price;
         receipt[index].category.newPrice = newPrice;
         receipt[index].category.newPrice;
         setReceipt([...receipt]);
       } else {
-        receipt[index].category.quantity = 0;
+        receipt[index].category.quantity = 1;
       }
     }
   };
@@ -54,7 +57,7 @@ const EditReceipt = (props) => {
     } else {
       setDiscountError(false);
     }
-    setDiscount(text.replace(/[^0-9]/g, ''));
+    setDiscount(text.replace(/[^0-9]/g, ""));
   };
   const doneDiscount = (id) => {
     if (receipt.length > 0 && discount !== "") {
@@ -85,7 +88,7 @@ const EditReceipt = (props) => {
         />
         <Button
           title="Generate Receipt"
-          onPress={() => 
+          onPress={() =>
             props.navigation.navigate({
               routeName: "GenerateReceipt",
               params: {
@@ -98,7 +101,12 @@ const EditReceipt = (props) => {
           color={Colors.primary}
         />
       </View>
-      <Text style={styles.priceText}>Animal: {animal_details.map((a) => <Text key={a.name}>{a.name + " "}</Text>)}</Text>
+      <Text style={styles.priceText}>
+        Animal:{" "}
+        {animal_details.map((a) => (
+          <Text key={a.name}>{a.name + " "}</Text>
+        ))}
+      </Text>
       <Text style={styles.priceText}>Customer: {customer}</Text>
       <ScrollView>
         {receipt.map((r, index) => (
@@ -135,7 +143,7 @@ const EditReceipt = (props) => {
                   autoCapitalize="none"
                   autoCorrect={false}
                   value={discount}
-                  keyboardType='numeric'
+                  keyboardType="numeric"
                   onChangeText={discountHandler}
                   style={{
                     borderBottomColor: Colors.primary,
@@ -252,7 +260,7 @@ const styles = StyleSheet.create({
   },
   danger: {
     color: Colors.danger,
-    fontSize: 11
+    fontSize: 11,
   },
   incrementQuantity: {
     backgroundColor: Colors.success,

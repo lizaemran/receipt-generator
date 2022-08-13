@@ -11,56 +11,12 @@ import {
 } from "react-native";
 import * as Sharing from "expo-sharing";
 import Colors from "../constants/colors";
-import { CUSTOMER } from "../data/CustomerData";
-import { RECEIPTS } from "../data/ReceiptData";
-import Receipt from "../modals/Receipt";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import ViewShot from "react-native-view-shot";
-const GenerateReceipt = (props) => {
-  const animals = props.navigation.getParam("animals");
-  const customer = props.navigation.getParam("customer");
-  const [uri, setUri] = useState("");
-  const customer_details = CUSTOMER.filter((c) => c.name === customer);
+const SendReceipt = (props) => {
   const receipt = props.navigation.getParam("receipt");
+  const customer = props.navigation.getParam("customer");
   const ref = useRef();
-  var total = receipt?.reduce(
-    (acc, cur) =>
-      acc +
-      (cur.category.newPrice
-        ? Number(cur.category.newPrice)
-        : cur.category.price),
-    0
-  );
-  var d = new Date();
-  d = d.getDate() + "/" + d.getMonth() + "/" + d.getFullYear();
-  const saveReceiptHandler = async () => {
-    let temp = [];
-    temp = receipt;
-    RECEIPTS.push(
-      new Receipt(Receipt.length + 1, customer, animals, temp, total, d)
-    );
-    try {
-      const data = JSON.stringify(RECEIPTS);
-      await AsyncStorage.setItem("Receipts", data);
-      alert("Data successfully saved!");
-    } catch (e) {
-      alert("Failed to save data.");
-    }
-    CUSTOMER[customer_details[0].id - 1].receipts.push({
-      animals: animals,
-      receipt: receipt,
-      total: total,
-      date: d
-    });
-    try {
-      const data = JSON.stringify(CUSTOMER);
-      await AsyncStorage.setItem("Customers", data);
-      alert("Data successfully saved!");
-    } catch (e) {
-      alert("Failed to save data.");
-    }
-    props.navigation.navigate({ routeName: "ViewCustomers" });
-  };
+  const [uri, setUri] = useState("");
   const sendReceiptHandler = async () => {
     ref.current.capture().then((uri) => {
       setUri(uri);
@@ -71,27 +27,14 @@ const GenerateReceipt = (props) => {
     }
     if(uri) await Sharing.shareAsync(uri);
   };
+  console.log(receipt);
   return (
     <View style={styles.screen}>
-      <View style={styles.servicesRow}>
-        <Button
-          title="Edit Receipt"
-          onPress={() =>
-            props.navigation.navigate({ routeName: "EditReceipt" })
-          }
-          color={Colors.primary}
-        />
-        <Button
-          title="Save"
-          onPress={saveReceiptHandler}
-          color={Colors.primary}
-        />
         <Button
           title="Send"
           onPress={sendReceiptHandler}
-          color={Colors.primary}
+          color={Colors.success}
         />
-      </View>
       <ScrollView>
       <ViewShot
         ref={ref}
@@ -101,14 +44,14 @@ const GenerateReceipt = (props) => {
         <View style={{ justifyContent: "center", alignItems: "center" }}>
           <Image source={require("../assets/logo.jpg")} style={styles.logo} />
         </View>
-        <Text>Date: {d}</Text>
-        {customer_details.map((c) => (
-          <Text key={c.phone} style={{ fontWeight: "700" }}>
-            Customer: {c.name}
+          <Text>
+            Date: {receipt.date}
           </Text>
-        ))}
+          <Text style={{ fontWeight: "700" }}>
+            Customer: {customer?.name}
+          </Text>
         <View>
-          {animals.map((a) => (
+          {receipt.animals.map((a) => (
             <View key={a.name} style={styles.animals}>
               <Text style={styles.info}>{a.type}</Text>
               <Text style={styles.info}>{a.name}</Text>
@@ -119,8 +62,8 @@ const GenerateReceipt = (props) => {
             </View>
           ))}
         </View>
-        <Text>Services: {receipt?.length}</Text>
-          {receipt?.map((r, index) => (
+        <Text>Services: {receipt.receipt?.length}</Text>
+          {receipt.receipt?.map((r, index) => (
             <View key={index}>
               <Text
                 style={{
@@ -170,7 +113,7 @@ const GenerateReceipt = (props) => {
           ))}
         <View style={styles.servicesRowTotal}>
           <Text>Total</Text>
-          <Text>Rs. {total}</Text>
+          <Text>Rs. {receipt.total}</Text>
         </View>
       </ViewShot>
       </ScrollView>
@@ -178,8 +121,8 @@ const GenerateReceipt = (props) => {
     </View>
   );
 };
-GenerateReceipt.navigationOptions = {
-  headerTitle: "Generate Receipt",
+SendReceipt.navigationOptions = {
+  headerTitle: "Send Receipt",
   headerStyle: {
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
@@ -238,4 +181,4 @@ const styles = StyleSheet.create({
     color: 'white'
   }
 });
-export default GenerateReceipt;
+export default SendReceipt;

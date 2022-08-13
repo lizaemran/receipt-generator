@@ -1,5 +1,5 @@
 import React from "react";
-import { TouchableOpacity, View, Text, StyleSheet, Button} from "react-native";
+import { TouchableOpacity, View, Text, StyleSheet, Button, Dimensions} from "react-native";
 import Colors from "../constants/colors";
 const AnimalsGridTile = props => {
     return (
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         borderColor: Colors.primary,
         borderWidth:  1, 
-        width: 320,
+        width: Dimensions.get('window').width*0.90,
     },
     container: {
         justifyContent: 'flex-start',

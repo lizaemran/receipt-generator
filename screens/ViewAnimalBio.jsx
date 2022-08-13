@@ -360,5 +360,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingVertical: 5,
   },
+  Add: {
+    marginTop: 50
+  }
 });
 export default ViewAnimalBio;

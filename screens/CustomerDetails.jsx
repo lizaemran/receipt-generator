@@ -169,7 +169,40 @@ const CustomerDetails = (props) => {
         {selectedCustomer?.receipts?.length > 0 ? (
           selectedCustomer?.receipts?.map((i, ind) => (
             <View key={ind} style={styles.receiptTile}>
-              <Text>{ind + 1}. Receipt</Text>
+              <View style={styles.servicesRow}>
+              <Text style={{fontSize: 18, fontStyle: 'italic'}}>{ind + 1}. Receipt</Text>
+              <View style={styles.servicesRow}>
+              <Button title="View" color={Colors.primary} onPress={() => props.navigation.navigate({ routeName: "SendReceipt",  params: {
+                customer: selectedCustomer,
+                receipt: i,
+              }, })}  />
+              <Button title="Delete" color={Colors.danger} onPress={() => 
+                  Alert.alert(
+                    "Confirmation",
+                    `Are you sure you want to remove?`,
+                    [
+                      {
+                        text: "Yes",
+                        onPress: async () => {
+                          CUSTOMER[customer_id - 1].receipts.splice(ind, 1);
+                          try {
+                            const data = JSON.stringify(CUSTOMER);
+                            await AsyncStorage.setItem("Customers", data);
+                            alert("Data successfully saved after deleting!");
+                            props.navigation.navigate({ routeName: "MainPage" });
+                          } catch (e) {
+                            alert("Failed to save data.");
+                          }
+                        },
+                      },
+                      {
+                        text: "No",
+                      },
+                    ]
+                  )
+              }  />
+              </View>
+              </View>
               {i.receipt?.map((r, index) => (
                 <View key={index}>
                   <Text
@@ -211,6 +244,7 @@ const CustomerDetails = (props) => {
                   </View>
                 </View>
               ))}
+              <Text style={{textAlign: 'right', fontSize: 18, fontWeight: '600'}}>Total: Rs. {i.total}</Text>
             </View>
           ))
         ) : (
