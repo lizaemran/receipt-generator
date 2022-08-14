@@ -27,7 +27,6 @@ const SendReceipt = (props) => {
     }
     if(uri) await Sharing.shareAsync(uri);
   };
-  console.log(receipt);
   return (
     <View style={styles.screen}>
         <Button
@@ -39,8 +38,7 @@ const SendReceipt = (props) => {
       <ViewShot
         ref={ref}
         options={{ fileName: "Your-File-Name", format: "jpg", quality: 0.9 }}
-        style={styles.receipt}
-      >
+        style={styles.receipt}>
         <View style={{ justifyContent: "center", alignItems: "center" }}>
           <Image source={require("../assets/logo.jpg")} style={styles.logo} />
         </View>

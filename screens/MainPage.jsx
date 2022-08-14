@@ -25,7 +25,7 @@ const MainPage = (props) => {
         <FontAwesome name="tasks" size={20} color="#424242" style={{marginRight: 10}} />
         <Text style={styles.heading}>Select</Text>
         </View>
-        <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={10}>
+        <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={10} style={{flexDirection: 'row'}}>
           <TabComponent activeOpacity={0.6} onPress={() =>
                   props.navigation.navigate({
                     routeName: "SelectAnimal",
@@ -50,6 +50,20 @@ const MainPage = (props) => {
             </Text>
             </View>
           </TabComponent>
+        </KeyboardAvoidingView>
+        <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={10} style={{flexDirection: 'row'}}>
+        <TabComponent activeOpacity={0.6} onPress={() =>
+                props.navigation.navigate({
+                  routeName: "ViewReceipts",
+                })
+              }>
+            <View style={styles.tab}>
+            <FontAwesome5 name="receipt" size={24} color="white" />
+            <Text style={styles.text} >
+                View Receipts
+            </Text>
+            </View>
+          </TabComponent>
           <TabComponent activeOpacity={0.6} onPress={() =>
                 props.navigation.navigate({
                   routeName: "ViewAnimalBio",
@@ -62,14 +76,14 @@ const MainPage = (props) => {
             </Text>
             </View>
           </TabComponent>
-          <Text style={styles.customize} onPress={() =>
+        </KeyboardAvoidingView>
+        <Text style={styles.customize} onPress={() =>
                 props.navigation.navigate({
                   routeName: "AddAnimal",
                 })
               }>
                 Customize
             </Text>
-        </KeyboardAvoidingView>
         <StatusBar style="auto" />
       </View>
     </View>
@@ -105,9 +119,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#f7f2f2",
   },
   tab: {
-    marginVertical: 10,
+    margin: 10,
     backgroundColor: Colors.primary,
-    width: Dimensions.get("window").width * 0.5,
+    width: Dimensions.get("window").width * 0.375,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

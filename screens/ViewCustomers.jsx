@@ -63,12 +63,12 @@ const ViewCustomers = (props) => {
         { text: "Okay", style: "destructive" },
       ]);
     } else {
-      if(CUSTOMER.map(c => c.phone === customerPhone).length > 0){
-        Alert.alert("Error", "Customer already exists", [
-          { text: "Okay", style: "destructive" },
-        ]);
-      }
-      else{
+      // if(CUSTOMER.map(c => c.phone === customerPhone).length > 0){
+      //   Alert.alert("Error", "Customer already exists", [
+      //     { text: "Okay", style: "destructive" },
+      //   ]);
+      // }
+      // else{
         CUSTOMER.push(
           new Customer(CUSTOMER.length + 1, customer, customerPhone, [])
         );
@@ -86,7 +86,7 @@ const ViewCustomers = (props) => {
         setCustomer("");
         setCustomerPhone("");
         props.navigation.navigate({ routeName: "MainPage" })
-      }
+      // }
     }
   };
   const renderGridItem = (itemData) => {

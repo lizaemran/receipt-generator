@@ -19,13 +19,16 @@ const EditReceipt = (props) => {
   const [discountError, setDiscountError] = useState(false);
   const [discountArr, setDiscountArr] = useState([]);
   const animals = props.navigation.getParam("animals");
+  const setRec = props.navigation.getParam("setReceipt");
   useEffect(() => {
     const temp = [...receiptParam]
+    setRec([]);
     setReceipt(temp);
   },[])
   const animal_details = animals.map((animal) =>
     ANIMALS.find((a) => (a?.name).toLowerCase() === animal.type.toLowerCase())
   );
+
   const incrementQuantity = (id) => {
     if (receipt.length > 0) {
       const index = receipt.findIndex((r) => r.category.id === id);

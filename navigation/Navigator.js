@@ -17,6 +17,7 @@ import AnimalInfo from '../screens/AnimalInfo';
 import ViewAnimalBio from '../screens/ViewAnimalBio';
 import AnimalBioDetails from '../screens/AnimalBioDetails';
 import SendReceipt from '../screens/SendReceipt';
+import ViewReceipts from '../screens/ViewReceipts';
 
 
 const Navigator = createStackNavigator({
@@ -64,6 +65,9 @@ const Navigator = createStackNavigator({
     },
     SendReceipt: {
       screen: SendReceipt,
+    },
+    ViewReceipts: {
+      screen: ViewReceipts,
     }
 },{
     mode : 'modal',

@@ -38,7 +38,7 @@ const SelectServices = (props) => {
         service: s,
         main_id: m_id,
         category_index: index,
-        category: category,
+        category: {...category},
         animalInfo: animals,
       },
     ]);
@@ -76,6 +76,7 @@ const SelectServices = (props) => {
                   customer: customer,
                   animals: animals,
                   receipt: receipt,
+                  setReceipt: setReceipt,
                 },
               })
             }

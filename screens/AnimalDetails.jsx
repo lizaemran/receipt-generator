@@ -91,7 +91,7 @@ const AnimalDetails = props => {
   return (
     <View style={styles.screen}>
        <View style={styles.button}>
-            <Button title='Back To Animals' onPress={() => props.navigation.navigate({routeName: 'AddAnimal'})} color={Colors.primary} />
+        <Button title='Back To Animals' onPress={() => props.navigation.navigate({routeName: 'AddAnimal'})} color={Colors.primary} />
       </View>
       {!isAddService &&
       <ScrollView style={styles.detailItem}>

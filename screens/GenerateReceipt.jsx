@@ -1,14 +1,6 @@
 import React, { useRef, useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import {
-  Button,
-  StyleSheet,
-  View,
-  Text,
-  Dimensions,
-  Image,
-  ScrollView,
-} from "react-native";
+import { Button, StyleSheet, View, Text, Dimensions, Image, ScrollView} from "react-native";
 import * as Sharing from "expo-sharing";
 import Colors from "../constants/colors";
 import { CUSTOMER } from "../data/CustomerData";
@@ -32,17 +24,19 @@ const GenerateReceipt = (props) => {
     0
   );
   var d = new Date();
-  d = d.getDate() + "/" + d.getMonth() + "/" + d.getFullYear();
+  let month = d.getMonth();
+  month = month + 1;
+  d = d.getFullYear() + "/" + month + "/" + d.getDate();
   const saveReceiptHandler = async () => {
     let temp = [];
     temp = receipt;
     RECEIPTS.push(
-      new Receipt(Receipt.length + 1, customer, animals, temp, total, d)
+      new Receipt(Receipt.length + 2, customer, animals, temp, total, d)
     );
     try {
       const data = JSON.stringify(RECEIPTS);
       await AsyncStorage.setItem("Receipts", data);
-      alert("Data successfully saved!");
+      alert("Receipt successfully saved!");
     } catch (e) {
       alert("Failed to save data.");
     }
@@ -55,7 +49,7 @@ const GenerateReceipt = (props) => {
     try {
       const data = JSON.stringify(CUSTOMER);
       await AsyncStorage.setItem("Customers", data);
-      alert("Data successfully saved!");
+      alert("Customer successfully saved!");
     } catch (e) {
       alert("Failed to save data.");
     }
