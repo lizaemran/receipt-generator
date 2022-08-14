@@ -141,8 +141,8 @@ const AnimalInfo = (props) => {
       {isNew ? (
         <View>
           <Button
-            title="Select From Animals"
-            color={Colors.primary}
+            title="Select From Saved Animals"
+            color={Colors.success}
             onPress={() => setIsNew(false)}
           />
         </View>
@@ -187,23 +187,23 @@ const AnimalInfo = (props) => {
                   )}
                 </View>
                 <View style={styles.infoRow}>
-                  <Text style={styles.info}>Name:</Text>
+                  <Text style={styles.info}>Name</Text>
                   <Text style={styles.info}>{animalInfo[index]?.name}</Text>
                 </View>
                 <View style={styles.infoRow}>
-                  <Text style={styles.info}>Age:</Text>
+                  <Text style={styles.info}>Age</Text>
                   <Text style={styles.info}>{animalInfo[index]?.age}</Text>
                 </View>
                 <View style={styles.infoRow}>
-                  <Text style={styles.info}>Color:</Text>
+                  <Text style={styles.info}>Color</Text>
                   <Text style={styles.info}>{animalInfo[index]?.color}</Text>
                 </View>
                 <View style={styles.infoRow}>
-                  <Text style={styles.info}>Breed:</Text>
+                  <Text style={styles.info}>Breed</Text>
                   <Text style={styles.info}>{animalInfo[index]?.breed}</Text>
                 </View>
                 <View style={styles.infoRow}>
-                  <Text style={styles.info}>Sex:</Text>
+                  <Text style={styles.info}>Sex</Text>
                   <Text style={styles.info}>{animalInfo[index]?.sex}</Text>
                 </View>
               </View>
@@ -355,14 +355,26 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingVertical: 5,
     alignItems: "center",
+    marginVertical: 5,
+    borderRadius: 10,
+    elevation: 2,
+    backgroundColor: "white",
+    padding: 10,
+    borderColor: Colors.primary,
+    borderWidth: 1,
   },
   infoRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingVertical: 1,
+    paddingVertical: 5,
     alignItems: "center",
-    borderTopColor: Colors.primary,
-    borderTopWidth: 1,
+    marginVertical: 5,
+    borderRadius: 10,
+    elevation: 2,
+    backgroundColor: "white",
+    padding: 10,
+    borderColor: Colors.primary,
+    borderWidth: 1,
   },
   danger: {
     color: Colors.danger,

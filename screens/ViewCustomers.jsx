@@ -131,7 +131,7 @@ const ViewCustomers = (props) => {
         )}
         </View>
       </View>
-      {isAddNew ? <View>
+      {isAddNew ? <View style={styles.detailItem}>
         <View style={styles.input}>
         <TextInput
           placeholder="John Doe"
@@ -204,6 +204,15 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 5,
   },
+  detailItem: {
+    marginVertical: 5,
+    borderRadius: 10,
+    elevation: 2,
+    backgroundColor: "white",
+    padding: 10,
+    borderColor: Colors.primary,
+    borderWidth: 1,
+  },
   input: {
     width: "90%",
   },
@@ -221,6 +230,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     paddingVertical: 5,
+    alignItems: "center",
+    marginVertical: 5,
+    borderRadius: 10,
+    elevation: 2,
+    backgroundColor: "white",
+    padding: 10,
+    borderColor: Colors.primary,
+    borderWidth: 1,
   },
 });
 export default ViewCustomers;

@@ -250,6 +250,13 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingVertical: 5,
     alignItems: "center",
+    marginVertical: 5,
+    borderRadius: 10,
+    elevation: 2,
+    backgroundColor: "white",
+    padding: 10,
+    borderColor: Colors.primary,
+    borderWidth: 1,
   },
   price: {
     flexDirection: "row",

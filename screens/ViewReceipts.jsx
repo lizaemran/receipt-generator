@@ -1,31 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  TouchableNativeFeedback,
-  Platform,
-  ScrollView,
-  Button,
-} from "react-native";
+import { StyleSheet, Text, View, ScrollView, Button } from "react-native";
 import Colors from "../constants/colors";
 import Customer from "../modals/Customer";
 import { CUSTOMER } from "../data/CustomerData";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DatePicker from "react-native-modern-datepicker";
 const ViewReceipts = (props) => {
-  let TabComponent = TouchableOpacity;
-  if (Platform.OS === "android" && Platform.Version >= 21) {
-    TabComponent = TouchableNativeFeedback;
-  }
   const [customersData, setCustomersData] = useState("");
   const [filtered, setFiltered] = useState([]);
+  const [isFilter, setIsFilter] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
   const [isStart, setIsStart] = useState(false);
   const [endDate, setEndDate] = useState(new Date());
   const [isEnd, setIsEnd] = useState(false);
+  const [total, setTotal] = useState('');
   useEffect(() => {
     const getData = async () => {
       try {
@@ -47,16 +36,54 @@ const ViewReceipts = (props) => {
     };
     getData();
   }, []);
+  const getData = async () => {
+    try {
+      const customers = await AsyncStorage.getItem("Customers");
+
+      if (customers !== null) {
+        setCustomersData(JSON.parse(customers));
+        setFiltered(JSON.parse(customers));
+        let temp = JSON.parse(customers);
+        if (CUSTOMER.length === 0) {
+          temp?.map((a) =>
+            CUSTOMER.push(new Customer(a.id, a.name, a.phone, a.receipts))
+          );
+        }
+      }
+    } catch (e) {
+      alert("Failed to load receipts data.");
+    }
+  };
   const strtoDate = (d) => {
     const [year, month, day] = d.split("/");
     return new Date(+year, month - 1, +day);
-  }
+  };
   const filterReceipts = () => {
     const strDate = strtoDate(startDate);
     const eDate = strtoDate(endDate);
-    let temp = filtered.map(f => f.receipts?.filter(r => strtoDate(r.date) > strDate && strtoDate(r.date) < eDate));
-    if(temp) console.log(temp);
-    // setFiltered(temp);
+    let temp = filtered.map((f) => {
+      f.receipts = f.receipts?.filter((r) => {
+        return strtoDate(r.date) > strDate && strtoDate(r.date) < eDate;
+      });
+      return f;
+    });
+    if (temp) {
+      let total = temp?.map(t => t?.receipts?.reduce(
+        (acc, cur) =>
+          acc +
+          (cur.total
+            ? Number(cur.total)
+            : cur.total),
+        0
+      )).reduce((acc, cur) =>
+      acc +
+      (cur
+        ? Number(cur)
+        : cur),
+    0);
+      setTotal(total);
+      setFiltered(temp);
+    }
   };
   return (
     <View style={styles.screen}>
@@ -70,10 +97,16 @@ const ViewReceipts = (props) => {
               }}
             />
           ) : (
-            <Text style={{ color: "white" }} onPress={() => {setIsStart(true); setIsEnd(false);}}>
+            <Text
+              style={{ color: "white" }}
+              onPress={() => {
+                setIsStart(true);
+                setIsEnd(false);
+              }}
+            >
               Start Date:{" "}
               {typeof startDate !== "object" ? (
-                startDate
+                <Text style={{textDecorationLine: 'underline'}}>{startDate}</Text>
               ) : (
                 <Text style={{ color: Colors.active }}>Set</Text>
               )}
@@ -89,58 +122,92 @@ const ViewReceipts = (props) => {
               }}
             />
           ) : (
-            <Text style={{ color: "white" }} onPress={() => {setIsEnd(true); setIsStart(false);}}>
+            <Text
+              style={{ color: "white" }}
+              onPress={() => {
+                setIsEnd(true);
+                setIsStart(false);
+              }}
+            >
               End Date:{" "}
               {typeof endDate !== "object" ? (
-                endDate
+                <Text style={{textDecorationLine: 'underline'}}>{endDate}</Text>
               ) : (
                 <Text style={{ color: Colors.active }}>Set</Text>
               )}
             </Text>
           )}
         </View>
-        {(typeof startDate === 'string' && typeof endDate === 'string' ) && <Button
-          title="Filter Results"
-          color={Colors.success}
-          onPress={filterReceipts}
-        />}
+        {total !== '' && <View>
+      <Text style={{fontSize: 20, fontWeight: '700', textAlign: 'center', color: 'white', marginVertical: 10}}>Earnings: Rs. {total}</Text>
+      </View>}
+        {typeof startDate === "string" && typeof endDate === "string" && (
+          <View style={{ marginTop: 20 }}>
+            {isFilter ? (
+              <Button
+                title="Clear Filter"
+                color={Colors.danger}
+                onPress={() => {
+                  setIsFilter(false);
+                  setStartDate({});
+                  setEndDate({});
+                  setTotal('');
+                  getData();
+                }}
+              />
+            ) : (
+              <Button
+                title="Filter"
+                color={Colors.success}
+                onPress={() => {
+                  setIsFilter(true);
+                  filterReceipts();
+                }}
+              />
+            )}
+          </View>
+        )}
       </View>
       <ScrollView style={styles.inputContainer}>
         {customersData === "" ? (
           <Text>No items to show</Text>
         ) : (
-          <View >
-            {(!isStart && !isEnd) && (
-              <View style={{alignItems: 'center'}}>
+          <View>
+            {!isStart && !isEnd && (
+              <View style={{ alignItems: "center" }}>
                 {filtered?.map((c) => (
-                  <View key={c.id} style={{ width: 320 , }}>
+                  <View key={c.id} style={{ width: 320 }}>
                     <Text style={{ fontSize: 18, fontWeight: "700" }}>
                       {c.name}
                     </Text>
-                    {c.receipts?.length > 0 ? c.receipts?.map((r, ind) => (
-                      <View key={ind} style={styles.receipt}>
-                        <View>
-                          <Text>Date: {r.date}</Text>
+                    {c.receipts?.length > 0 ? (
+                      c.receipts?.map((r, ind) => (
+                        <View key={ind} style={styles.receipt}>
+                          <View>
+                            <Text>Date: {r.date}</Text>
+                          </View>
+                          <View>
+                            {r.animals?.map((a) => (
+                              <View key={a.name} style={styles.animals}>
+                                <Text style={styles.info}>{a.type}</Text>
+                                <Text style={styles.info}>{a.name}</Text>
+                                <Text style={styles.info}>{a.sex}</Text>
+                                <Text style={styles.info}>Age: {a.age}</Text>
+                                <Text style={styles.info}>{a.breed}</Text>
+                                <Text style={styles.info}>{a.color}</Text>
+                              </View>
+                            ))}
+                          </View>
+                          <View>
+                            <Text style={{ textAlign: "right" }}>
+                              Rs. {r.total}
+                            </Text>
+                          </View>
                         </View>
-                        <View>
-                          {r.animals?.map((a) => (
-                            <View key={a.name} style={styles.animals}>
-                              <Text style={styles.info}>{a.type}</Text>
-                              <Text style={styles.info}>{a.name}</Text>
-                              <Text style={styles.info}>{a.sex}</Text>
-                              <Text style={styles.info}>Age: {a.age}</Text>
-                              <Text style={styles.info}>{a.breed}</Text>
-                              <Text style={styles.info}>{a.color}</Text>
-                            </View>
-                          ))}
-                        </View>
-                        <View>
-                          <Text style={{ textAlign: "right" }}>
-                            Rs. {r.total}
-                          </Text>
-                        </View>
-                      </View>
-                    )) : <Text>No Receipts</Text>}
+                      ))
+                    ) : (
+                      <Text>No Receipts</Text>
+                    )}
                   </View>
                 ))}
               </View>
@@ -173,10 +240,10 @@ const styles = StyleSheet.create({
     minWidth: 300,
     maxWidth: "90%",
     elevation: 2,
-    paddingVertical: 30,
+    paddingVertical: 5,
     borderRadius: 10,
     backgroundColor: "#f7f2f2",
-    marginBottom: 5,
+    marginBottom: 10,
   },
   date: {
     marginTop: 80,
