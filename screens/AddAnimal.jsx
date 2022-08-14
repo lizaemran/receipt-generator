@@ -207,8 +207,15 @@ const styles = StyleSheet.create({
   servicesRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingVertical: 5,
+    paddingVertical: 10,
     alignItems: "center",
+    marginVertical: 5,
+    borderRadius: 10,
+    elevation: 2,
+    backgroundColor: "white",
+    padding: 10,
+    borderColor: Colors.primary,
+    borderWidth: 1,
   },
 });
 export default AddAnimal;
