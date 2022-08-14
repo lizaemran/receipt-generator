@@ -370,7 +370,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginVertical: 5,
     borderRadius: 10,
-    elevation: 2,
     backgroundColor: "white",
     padding: 10,
     borderColor: Colors.primary,

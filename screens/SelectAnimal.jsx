@@ -4,6 +4,7 @@ import { StyleSheet, View, Text, Button, ScrollView, Dimensions } from "react-na
 import Colors from "../constants/colors";
 import { ANIMALS } from "../data/data";
 import { Ionicons } from "@expo/vector-icons";
+import { MaterialIcons } from '@expo/vector-icons';
 const SelectAnimal = (props) => {
   const [animals, setAnimals] = useState([]);
   const animalsHandler = (name) => {
@@ -47,7 +48,7 @@ const SelectAnimal = (props) => {
             {animals.includes(a.name) && (
                 <Ionicons name="checkmark-sharp" size={24} color={Colors.success} />
             )}
-            {a.name}
+            <MaterialIcons name="pets" size={24} color="black" />{a.name}
           </Text>
         ))}
       </ScrollView>

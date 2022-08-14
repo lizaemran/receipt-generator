@@ -132,7 +132,7 @@ const AddAnimal = (props) => {
         )}
       </View>
       {isAddNew && (
-        <View>
+        <View style={styles.add}>
           <View style={styles.input}>
             <TextInput
               placeholder="Cat"
@@ -209,6 +209,16 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingVertical: 10,
     alignItems: "center",
+    marginVertical: 5,
+    borderRadius: 10,
+    elevation: 2,
+    backgroundColor: "white",
+    padding: 10,
+    borderColor: Colors.primary,
+    borderWidth: 1,
+  },
+  add: {
+    paddingVertical: 10,
     marginVertical: 5,
     borderRadius: 10,
     elevation: 2,

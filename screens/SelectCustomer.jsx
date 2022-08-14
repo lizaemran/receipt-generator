@@ -6,6 +6,7 @@ import { CUSTOMER } from '../data/CustomerData';
 import Customer from '../modals/Customer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Feather } from "@expo/vector-icons";
+import { FontAwesome } from '@expo/vector-icons';
 const SelectCustomer = props => {
   const animals =  props.navigation.getParam('animals');
   const [search, setSearch] = useState("");
@@ -78,7 +79,7 @@ const SelectCustomer = props => {
                 animals: animals
             }
           })}>
-            {a.name}
+            <FontAwesome name="user" size={24} color="black" /> {a.name}
           </Text>
         )}
       </ScrollView>
