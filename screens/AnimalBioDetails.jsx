@@ -103,10 +103,12 @@ const AnimalBioDetails = (props) => {
     }
     setAnimalAge(text.replace("<", ""));
   };
-  const getAge = (birthYear) => {
+  const getAge = (birthYear, birthMonth) => {
     var currentDate = new Date();
       var currentYear = currentDate.getFullYear();
-      age = currentYear - birthYear;
+      let age = currentYear - birthYear;
+      let month = currentDate.getMonth() - birthMonth+1;
+      if(age === 0) age = month + 'months'
       return age;
   }
   const EditHandler = async () => {
@@ -119,7 +121,7 @@ const AnimalBioDetails = (props) => {
       animalBreed !== "" &&
       animalColor !== ""
     ) {
-      let age = getAge(animalAge.split('-')[2]);
+      let age = getAge(animalAge.split('-')[2], animalAge.split('-')[1]);
       console.log(age);
       ANIMALBIO[animal_id - 1].type = animalType;
       ANIMALBIO[animal_id - 1].name = animalName;

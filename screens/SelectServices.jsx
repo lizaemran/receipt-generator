@@ -119,9 +119,7 @@ const SelectServices = (props) => {
         {animal_details.map((a) => (
           <View key={a?.name}>
             <Text style={styles.animal}>{a?.name}</Text>
-            {a?.services
-              ?.filter((service) => service.title.includes(search))
-              .map((s) => (
+            {a?.services?.filter((service) => service.title.includes(search)).map((s) => (
                 <View key={s.title}>
                   <View>
                     <Text style={styles.title}>{s.title}</Text>

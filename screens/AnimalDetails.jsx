@@ -70,6 +70,7 @@ const AnimalDetails = props => {
           id: `${selectedAnimal.name}-${selectedAnimal.id}-${makeid(1)}`,
           type: serviceType,
           subCategory: [{
+            id: `${selectedAnimal.name}-${selectedAnimal.id}-${makeid(3)}`,
             type: serviceSubType,
             price: Number(servicePrice),
             quantity: 1,
@@ -102,10 +103,36 @@ const AnimalDetails = props => {
           <Text  style={styles.services}>
             {index + 1}. {s?.title}
           </Text>
+          <View style={{flexDirection: 'row'}}>
           <Button title='View' color={Colors.primary} onPress={() => props.navigation.navigate({routeName: 'ViewService', params : {
             service : s,
             selectedAnimal : selectedAnimal
           }})} />
+          <Button title='Delete' onPress={() => Alert.alert(
+      "Confirmation",
+      `Are you sure you want to remove ${s.title}?`,
+      [
+        {
+          text: "Yes",
+          onPress: async () => {
+            ANIMALS[animal_id-1].services.splice(index, 1);
+            try {
+              const data = JSON.stringify(ANIMALS);
+              await AsyncStorage.setItem("Animals", data);
+              alert("Data successfully saved after deleting!");
+              props.navigation.navigate({ routeName: "MainPage" });
+            } catch (e) {
+              alert("Failed to save data.");
+            }
+          },
+        },
+        {
+          text: "No",
+        },
+      ]
+    )} color={Colors.danger} />
+          </View>
+          
         </View>) : <Text>No Services Added Yet</Text>}
         </ScrollView>}
         <View style={styles.Add}>

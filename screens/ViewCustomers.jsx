@@ -151,7 +151,7 @@ const ViewCustomers = (props) => {
           <Text style={styles.danger}>Enter Valid Customer Name</Text>
         ) : null}
         <TextInput
-          placeholder="33333333333"
+          placeholder="03XXXXXXX94"
           blurOnSubmit
           autoCapitalize="none"
           autoCorrect={false}

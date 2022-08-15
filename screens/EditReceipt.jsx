@@ -10,6 +10,7 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import Colors from "../constants/colors";
+import DatePicker from "react-native-modern-datepicker";
 import { ANIMALS } from "../data/data";
 const EditReceipt = (props) => {
   const customer = props.navigation.getParam("customer");
@@ -17,14 +18,20 @@ const EditReceipt = (props) => {
   const [receipt, setReceipt] = useState([]);
   const [discount, setDiscount] = useState("");
   const [discountError, setDiscountError] = useState(false);
+  const [otherDiscount, setOtherDiscount] = useState("0");
+  const [otherDiscountError, setOtherDiscountError] = useState(false);
+  const [paid, setPaid] = useState("0");
+  const [paidError, setPaidError] = useState(false);
   const [discountArr, setDiscountArr] = useState([]);
+  const [date, setDate] = useState(new Date());
+  const [isDate, setIsDate] = useState(false);
   const animals = props.navigation.getParam("animals");
   const setRec = props.navigation.getParam("setReceipt");
   useEffect(() => {
-    const temp = [...receiptParam]
+    const temp = [...receiptParam];
     setRec([]);
     setReceipt(temp);
-  },[])
+  }, []);
   const animal_details = animals.map((animal) =>
     ANIMALS.find((a) => (a?.name).toLowerCase() === animal.type.toLowerCase())
   );
@@ -45,7 +52,8 @@ const EditReceipt = (props) => {
       const index = receipt.findIndex((r) => r.category.id === id);
       if (receipt[index].category.quantity > 1) {
         receipt[index].category.quantity -= 1;
-        let newPrice = receipt[index].category.quantity * receipt[index].category.price;
+        let newPrice =
+          receipt[index].category.quantity * receipt[index].category.price;
         receipt[index].category.newPrice = newPrice;
         receipt[index].category.newPrice;
         setReceipt([...receipt]);
@@ -61,6 +69,22 @@ const EditReceipt = (props) => {
       setDiscountError(false);
     }
     setDiscount(text.replace(/[^0-9]/g, ""));
+  };
+  const otherDiscountHandler = (text) => {
+    if (text === "") {
+      setOtherDiscountError(true);
+    } else {
+      setOtherDiscountError(false);
+    }
+    setOtherDiscount(text.replace(/[^0-9]/g, ""));
+  };
+  const paidHandler = (text) => {
+    if (text === "") {
+      setPaidError(true);
+    } else {
+      setPaidError(false);
+    }
+    setPaid(text.replace(/[^0-9]/g, ""));
   };
   const doneDiscount = (id) => {
     if (receipt.length > 0 && discount !== "") {
@@ -91,16 +115,23 @@ const EditReceipt = (props) => {
         />
         <Button
           title="Generate Receipt"
-          onPress={() =>
-            props.navigation.navigate({
-              routeName: "GenerateReceipt",
-              params: {
-                customer: customer,
-                animals: animals,
-                receipt: receipt,
-              },
-            })
-          }
+          onPress={() => {
+            if (typeof date !== "object" && !otherDiscountError && !paidError) {
+              props.navigation.navigate({
+                routeName: "GenerateReceipt",
+                params: {
+                  customer: customer,
+                  animals: animals,
+                  receipt: receipt,
+                  date: date,
+                  otherDiscount: otherDiscount,
+                  paid: paid
+                },
+              });
+            } else {
+              alert("Please Enter Valid Data");
+            }
+          }}
           color={Colors.primary}
         />
       </View>
@@ -112,6 +143,32 @@ const EditReceipt = (props) => {
       </Text>
       <Text style={styles.priceText}>Customer: {customer}</Text>
       <ScrollView>
+        <View style={styles.servicesRow}>
+          <Text>Date: </Text>
+          {typeof date !== "object" ? (
+            <Text
+              onPress={() => setIsDate(!isDate)}
+              style={{ textDecorationLine: "underline" }}
+            >
+              {date}
+            </Text>
+          ) : (
+            <Text
+              onPress={() => setIsDate(!isDate)}
+              style={{ color: Colors.success }}
+            >
+              Set
+            </Text>
+          )}
+        </View>
+        {isDate && (
+          <DatePicker
+            onSelectedChange={(date) => {
+              setDate(date?.split(" ")[0]);
+              setIsDate(false);
+            }}
+          />
+        )}
         {receipt.map((r, index) => (
           <View key={index} style={styles.detailItem}>
             <Text>{r.main_id}</Text>
@@ -202,6 +259,52 @@ const EditReceipt = (props) => {
             </View>
           </View>
         ))}
+        <KeyboardAvoidingView style={styles.servicesRow}>
+          <Text>Another Discount?</Text>
+          <View>
+            <TextInput
+              placeholder="Other Discount"
+              blurOnSubmit
+              autoCapitalize="none"
+              autoCorrect={false}
+              value={otherDiscount}
+              keyboardType="numeric"
+              onChangeText={otherDiscountHandler}
+              style={{
+                borderBottomColor: Colors.primary,
+                borderBottomWidth: 1,
+                padding: 5,
+                marginVertical: 5,
+              }}
+            />
+            {otherDiscountError ? (
+              <Text style={styles.danger}>Enter Valid Other Discount</Text>
+            ) : null}
+          </View>
+        </KeyboardAvoidingView>
+        <KeyboardAvoidingView style={styles.servicesRow}>
+          <Text>Paid Amount</Text>
+          <View>
+            <TextInput
+              placeholder="Paid/Unpaid"
+              blurOnSubmit
+              autoCapitalize="none"
+              autoCorrect={false}
+              value={paid}
+              keyboardType="numeric"
+              onChangeText={paidHandler}
+              style={{
+                borderBottomColor: Colors.primary,
+                borderBottomWidth: 1,
+                padding: 5,
+                marginVertical: 5,
+              }}
+            />
+            {paidError ? (
+              <Text style={styles.danger}>Enter Valid Paid Amount</Text>
+            ) : null}
+          </View>
+        </KeyboardAvoidingView>
       </ScrollView>
     </View>
   );

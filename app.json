@@ -3,8 +3,9 @@
     "name": "receipt-generator",
     "slug": "receipt-generator",
     "version": "1.0.0",
+    "owner": "lizfiz1",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logoo.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -18,9 +19,13 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.pawscareservices.receiptgenerator",
+      "buildNumber": "1.0.0"
     },
     "android": {
+      "package": "com.pawscareservices.receiptgenerator",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"

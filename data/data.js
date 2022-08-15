@@ -65,19 +65,19 @@ export const ANIMALS = [
           id:'cat-3-a',
           type: "PCH",
           subCategory: [
-            { id:  'cat-PCH-1-a', type: "none", price: 2500, quantity: 1, discount: 0 },
+            { id:  'cat-PCH-1-a', type: "none", price: 3000, quantity: 1, discount: 0 },
           ],
         },
         {
           id: 'cat-3-b',
           type: "Rabies",
-          subCategory: [{ id:  'cat-Rabies-1-a', type: "none", price: 700, quantity: 1, discount: 0 }],
+          subCategory: [{ id:  'cat-Rabies-1-a', type: "none", price: 1000, quantity: 1, discount: 0 }],
         },
         {
           id: 'cat-3-c',
           type: "Booster",
           subCategory: [
-            { id:  'cat-ooster-1-a', type: "none", price: 3000, quantity: 1, discount: 0 },
+            { id:  'cat-booster-1-a', type: "none", price: 4000, quantity: 1, discount: 0 },
           ],
         },
       ],
@@ -189,6 +189,26 @@ export const ANIMALS = [
           type: "Charges",
           subCategory: [
             { id:  'cat-emergency-charges-1-a', type: "none", price: 2000, quantity: 1, discount: 0 },
+          ],
+        },
+      ],
+    },
+    {
+      id: 10,
+      title: "Home Visit Charges",
+      mainCategory: [
+        {
+          id: 'cat-10-a',
+          type: "Within 10km Radius",
+          subCategory: [
+            { id:  'cat-home-visit-within-10-1-a', type: "none", price: 1000, quantity: 1, discount: 0 },
+          ],
+        },
+        {
+          id: 'cat-10-b',
+          type: "Outside 10km Radius",
+          subCategory: [
+            { id:  'cat-home-visit-outside-10-1-a', type: "none", price: 2000, quantity: 1, discount: 0 },
           ],
         },
       ],
@@ -364,6 +384,26 @@ export const ANIMALS = [
         },
       ],
     },
+    {
+      id: 9,
+      title: "Home Visit Charges",
+      mainCategory: [
+        {
+          id: 'dog-9-a',
+          type: "Within 10km Radius",
+          subCategory: [
+            { id:  'dog-home-visit-within-10-1-a', type: "none", price: 1000, quantity: 1, discount: 0 },
+          ],
+        },
+        {
+          id: 'dog-9-b',
+          type: "Outside 10km Radius",
+          subCategory: [
+            { id:  'dog-home-visit-outside-10-1-a', type: "none", price: 2000, quantity: 1, discount: 0 },
+          ],
+        },
+      ],
+    },
   ]),
   new Animal(3, "Rabbit", [
     {
@@ -521,6 +561,26 @@ export const ANIMALS = [
         },
       ],
     },
+    {
+      id: 9,
+      title: "Home Visit Charges",
+      mainCategory: [
+        {
+          id: 'rabbit-10-a',
+          type: "Within 10km Radius",
+          subCategory: [
+            { id:  'rabbit-home-visit-within-10-1-a', type: "none", price: 1000, quantity: 1, discount: 0 },
+          ],
+        },
+        {
+          id: 'rabbit-10-b',
+          type: "Outside 10km Radius",
+          subCategory: [
+            { id:  'rabbit-home-visit-outside-10-1-a', type: "none", price: 2000, quantity: 1, discount: 0 },
+          ],
+        },
+      ],
+    },
   ]),
   new Animal(4, "Birds", [
 
@@ -549,6 +609,26 @@ export const ANIMALS = [
             type: "Feather Clipping",
             subCategory: [{ id: 'birds-feather-clipping-1-a', type: "none", price: 500, quantity: 1, discount: 0 }],
           },
+      ],
+    },
+    {
+      id: 3,
+      title: "Home Visit Charges",
+      mainCategory: [
+        {
+          id: 'bird-10-a',
+          type: "Within 10km Radius",
+          subCategory: [
+            { id:  'bird-home-visit-within-10-1-a', type: "none", price: 1000, quantity: 1, discount: 0 },
+          ],
+        },
+        {
+          id: 'bird-10-b',
+          type: "Outside 10km Radius",
+          subCategory: [
+            { id:  'bird-home-visit-outside-10-1-a', type: "none", price: 2000, quantity: 1, discount: 0 },
+          ],
+        },
       ],
     },
   ]),

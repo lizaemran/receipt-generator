@@ -11,9 +11,12 @@ import ViewShot from "react-native-view-shot";
 const GenerateReceipt = (props) => {
   const animals = props.navigation.getParam("animals");
   const customer = props.navigation.getParam("customer");
+  const otherDiscount = props.navigation.getParam("otherDiscount");
+  const paid = props.navigation.getParam("paid");
   const [uri, setUri] = useState("");
   const customer_details = CUSTOMER.filter((c) => c.name === customer);
   const receipt = props.navigation.getParam("receipt");
+  const d = props.navigation.getParam("date");
   const ref = useRef();
   var total = receipt?.reduce(
     (acc, cur) =>
@@ -23,10 +26,7 @@ const GenerateReceipt = (props) => {
         : cur.category.price),
     0
   );
-  var d = new Date();
-  let month = d.getMonth();
-  month = month + 1;
-  d = d.getFullYear() + "/" + month + "/" + d.getDate();
+  total = total - otherDiscount - paid;
   const saveReceiptHandler = async () => {
     let temp = [];
     temp = receipt;
@@ -162,6 +162,14 @@ const GenerateReceipt = (props) => {
               </View>
             </View>
           ))}
+        <View style={styles.servicesRowDiscounts}>
+          <Text>Credit</Text>
+          <Text style={{color: Colors.danger}}>- Rs. {otherDiscount}</Text>
+        </View>
+        <View style={styles.servicesRowDiscounts}>
+          <Text>Paid</Text>
+          <Text style={{color: Colors.danger}}>- Rs. {paid}</Text>
+        </View>
         <View style={styles.servicesRowTotal}>
           <Text>Total</Text>
           <Text>Rs. {total}</Text>
@@ -223,6 +231,18 @@ const styles = StyleSheet.create({
     borderLeftColor: "transparent",
     borderRightColor: "transparent",
     borderWidth: 1,
+  },
+  servicesRowDiscounts: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingVertical: 5,
+    alignItems: "center",
+    borderTopColor: Colors.primary,
+    borderBottomColor: "transparent",
+    borderLeftColor: "transparent",
+    borderRightColor: "transparent",
+    borderWidth: 1,
+    
   },
   animals: {
     flexDirection: "row",

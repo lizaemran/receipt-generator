@@ -8,6 +8,7 @@ import {
   TextInput,
   Alert,
   FlatList,
+  KeyboardAvoidingView
 } from "react-native";
 import Colors from "../constants/colors";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -127,10 +128,12 @@ const ViewAnimalBio = (props) => {
     }
     setAnimalAge(text.replace("<", ""));
   };
-  const getAge = (birthYear) => {
+  const getAge = (birthYear, birthMonth) => {
     var currentDate = new Date();
       var currentYear = currentDate.getFullYear();
       let age = currentYear - birthYear;
+      let month = currentDate.getMonth() - birthMonth+1;
+      if(age === 0) age = month + 'months'
       return age;
   }
   const addAnimalBio = async () => {
@@ -146,7 +149,7 @@ const ViewAnimalBio = (props) => {
         { text: "Okay", style: "destructive" },
       ]);
     } else {
-      let age = getAge(animalAge.split('-')[2]);
+      let age = getAge(animalAge.split('-')[2], animalAge.split('-')[1]);
       console.log(age);
       ANIMALBIO.push(
         new AnimalBio(
@@ -224,7 +227,7 @@ const ViewAnimalBio = (props) => {
         </View>
       </View>
       {isAddNew ? (
-        <View style={styles.detailItem}>
+        <KeyboardAvoidingView style={styles.detailItem}>
           <View style={styles.input}>
           <RadioButton PROP={TYPEPROP} sex={animalType} setSex={setAnimalType} />
             <TextInput
@@ -304,7 +307,7 @@ const ViewAnimalBio = (props) => {
               color={Colors.success}
             />
           </View>
-        </View>
+        </KeyboardAvoidingView>
       ) : null}
       {!isAddNew ? animalBioData.length > 0 ? (
         <FlatList

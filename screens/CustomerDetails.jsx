@@ -251,7 +251,7 @@ const CustomerDetails = (props) => {
           <Text>No Receipts Added Yet</Text>
         )}
       </ScrollView>
-      <Button title="Delete" onPress={deleteCustomer} color={Colors.danger} />
+      <Button title="Delete CUSTOMER" onPress={deleteCustomer} color={Colors.danger} />
     </View>
   );
 };
