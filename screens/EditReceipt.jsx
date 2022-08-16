@@ -125,11 +125,11 @@ const EditReceipt = (props) => {
                   receipt: receipt,
                   date: date,
                   otherDiscount: otherDiscount,
-                  paid: paid
+                  paid: paid,
                 },
               });
             } else {
-              alert("Please Enter Valid Data");
+              alert("Please Enter Valid and Complete Information");
             }
           }}
           color={Colors.primary}
@@ -259,8 +259,19 @@ const EditReceipt = (props) => {
             </View>
           </View>
         ))}
+        <Text style={{textAlign: 'right', fontSize: 18, color: Colors.success}}>
+          Total: Rs.{" "}
+          {receipt?.reduce(
+            (acc, cur) =>
+              acc +
+              (cur.category.newPrice
+                ? Number(cur.category.newPrice)
+                : cur.category.price),
+            0
+          )}
+        </Text>
         <KeyboardAvoidingView style={styles.servicesRow}>
-          <Text>Another Discount?</Text>
+          <Text>Credit?</Text>
           <View>
             <TextInput
               placeholder="Other Discount"

@@ -35,8 +35,7 @@ const ViewService = (props) => {
     setTitle(text);
   };
   const titleEdit = async () => {
-    if (title !== "") {
-      ANIMALS[selectedAnimal.id - 1].services[service.id - 1].title = title;
+    if (title !== "") ANIMALS[selectedAnimal.id - 1].services[service.id - 1].title = title;
       try {
         const data = JSON.stringify(ANIMALS);
         await AsyncStorage.setItem("Animals", data);
@@ -44,7 +43,6 @@ const ViewService = (props) => {
       } catch (e) {
         alert("Failed to save data.");
       }
-    }
     setIsEdit(false);
   };
   const mainHandler = (text) => {
@@ -200,7 +198,7 @@ const ViewService = (props) => {
           )}
         </Text>
         {isEdit ? (
-          <View style={styles.servicesRow}>
+          <View style={{flexDirection: 'row'}}>
             <Button title="Done" onPress={titleEdit} color={Colors.success} />
             <Button
               title="Cancel"

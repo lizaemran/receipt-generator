@@ -150,7 +150,6 @@ const ViewAnimalBio = (props) => {
       ]);
     } else {
       let age = getAge(animalAge.split('-')[2], animalAge.split('-')[1]);
-      console.log(age);
       ANIMALBIO.push(
         new AnimalBio(
           ANIMALBIO.length + 1,

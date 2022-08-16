@@ -217,7 +217,7 @@ const CustomerDetails = (props) => {
                   <View style={styles.servicesRow}>
                     <Text>
                       {r.category.type}
-                      {"(" + r.category.id + ")"}
+                      {/* {"(" + r.category.id + ")"} */}
                     </Text>
                     <Text>X{r.category.quantity}</Text>
                     {r.category.newPrice ? (
@@ -244,7 +244,9 @@ const CustomerDetails = (props) => {
                   </View>
                 </View>
               ))}
-              <Text style={{textAlign: 'right', fontSize: 18, fontWeight: '600'}}>Total: Rs. {i.total}</Text>
+              <Text style={{textAlign: 'right', color:Colors.danger}}>Credit: Rs. {i.credit}</Text>
+              <Text style={{textAlign: 'right', color:Colors.danger}}>Paid: Rs. {i.paid}</Text>
+              <Text style={{textAlign: 'right', fontSize: 18, fontWeight: '600'}}>Due: Rs. {i.due}</Text>
             </View>
           ))
         ) : (

@@ -122,7 +122,6 @@ const AnimalBioDetails = (props) => {
       animalColor !== ""
     ) {
       let age = getAge(animalAge.split('-')[2], animalAge.split('-')[1]);
-      console.log(age);
       ANIMALBIO[animal_id - 1].type = animalType;
       ANIMALBIO[animal_id - 1].name = animalName;
       ANIMALBIO[animal_id - 1].sex = animalSex;

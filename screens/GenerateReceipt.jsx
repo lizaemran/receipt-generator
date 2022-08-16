@@ -11,7 +11,7 @@ import ViewShot from "react-native-view-shot";
 const GenerateReceipt = (props) => {
   const animals = props.navigation.getParam("animals");
   const customer = props.navigation.getParam("customer");
-  const otherDiscount = props.navigation.getParam("otherDiscount");
+  const credit = props.navigation.getParam("otherDiscount");
   const paid = props.navigation.getParam("paid");
   const [uri, setUri] = useState("");
   const customer_details = CUSTOMER.filter((c) => c.name === customer);
@@ -26,12 +26,12 @@ const GenerateReceipt = (props) => {
         : cur.category.price),
     0
   );
-  total = total - otherDiscount - paid;
+  total = total - credit - paid;
   const saveReceiptHandler = async () => {
     let temp = [];
     temp = receipt;
     RECEIPTS.push(
-      new Receipt(Receipt.length + 2, customer, animals, temp, total, d)
+      new Receipt(Receipt.length + 2, customer, animals, temp, paid, total, credit, d)
     );
     try {
       const data = JSON.stringify(RECEIPTS);
@@ -43,7 +43,9 @@ const GenerateReceipt = (props) => {
     CUSTOMER[customer_details[0].id - 1].receipts.push({
       animals: animals,
       receipt: receipt,
-      total: total,
+      paid: paid,
+      due: total,
+      credit: credit,
       date: d
     });
     try {
@@ -128,7 +130,7 @@ const GenerateReceipt = (props) => {
               <View style={styles.servicesRow}>
                 <Text>
                   {r.category.type}
-                  {"(" + r.category.id + ")"}
+                  {/* {"(" + r.category.id + ")"} */}
                 </Text>
                 <Text>X{r.category.quantity}</Text>
                 {r.category.newPrice ? (
@@ -164,15 +166,18 @@ const GenerateReceipt = (props) => {
           ))}
         <View style={styles.servicesRowDiscounts}>
           <Text>Credit</Text>
-          <Text style={{color: Colors.danger}}>- Rs. {otherDiscount}</Text>
+          <Text style={{color: Colors.danger}}>- Rs. {credit}</Text>
         </View>
         <View style={styles.servicesRowDiscounts}>
           <Text>Paid</Text>
           <Text style={{color: Colors.danger}}>- Rs. {paid}</Text>
         </View>
         <View style={styles.servicesRowTotal}>
-          <Text>Total</Text>
+          <Text>Due</Text>
           <Text>Rs. {total}</Text>
+        </View>
+        <View style={{borderTopWidth: 1, borderTopColor: Colors.tertiary,}}>
+          <Text style={{textAlign: 'center', color: Colors.tertiary}}>Paws Care Services</Text>
         </View>
       </ViewShot>
       </ScrollView>

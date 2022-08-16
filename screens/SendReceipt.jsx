@@ -75,7 +75,7 @@ const SendReceipt = (props) => {
               <View style={styles.servicesRow}>
                 <Text>
                   {r.category.type}
-                  {"(" + r.category.id + ")"}
+                  {/* {"(" + r.category.id + ")"} */}
                 </Text>
                 <Text>X{r.category.quantity}</Text>
                 {r.category.newPrice ? (
@@ -110,8 +110,16 @@ const SendReceipt = (props) => {
             </View>
           ))}
         <View style={styles.servicesRowTotal}>
-          <Text>Total</Text>
-          <Text>Rs. {receipt.total}</Text>
+          <Text style={styles.servicesTextDis}>Credit</Text>
+          <Text style={styles.servicesTextDis}> - Rs. {receipt.credit}</Text>
+        </View>
+        <View style={styles.servicesRowTotal}>
+          <Text style={styles.servicesTextDis}>Paid</Text>
+          <Text style={styles.servicesTextDis}> - Rs. {receipt.paid}</Text>
+        </View>
+        <View style={styles.servicesRowTotal}>
+          <Text>Due</Text>
+          <Text>Rs. {receipt.due}</Text>
         </View>
       </ViewShot>
       </ScrollView>
@@ -163,6 +171,9 @@ const styles = StyleSheet.create({
     borderLeftColor: "transparent",
     borderRightColor: "transparent",
     borderWidth: 1,
+  },
+  servicesTextDis: {
+    color: Colors.danger
   },
   animals: {
     flexDirection: "row",

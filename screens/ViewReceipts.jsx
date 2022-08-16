@@ -6,6 +6,7 @@ import Customer from "../modals/Customer";
 import { CUSTOMER } from "../data/CustomerData";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DatePicker from "react-native-modern-datepicker";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 const ViewReceipts = (props) => {
   const [customersData, setCustomersData] = useState("");
   const [filtered, setFiltered] = useState([]);
@@ -63,7 +64,7 @@ const ViewReceipts = (props) => {
     const eDate = strtoDate(endDate);
     let temp = filtered.map((f) => {
       f.receipts = f.receipts?.filter((r) => {
-        return strtoDate(r.date) > strDate && strtoDate(r.date) < eDate;
+        return strtoDate(r.date) >= strDate && strtoDate(r.date) <= eDate;
       });
       return f;
     });
@@ -71,9 +72,9 @@ const ViewReceipts = (props) => {
       let total = temp?.map(t => t?.receipts?.reduce(
         (acc, cur) =>
           acc +
-          (cur.total
-            ? Number(cur.total)
-            : cur.total),
+          (cur.paid
+            ? Number(cur.paid)
+            : cur.paid),
         0
       )).reduce((acc, cur) =>
       acc +
@@ -138,8 +139,9 @@ const ViewReceipts = (props) => {
             </Text>
           )}
         </View>
-        {total !== '' && <View>
-      <Text style={{fontSize: 20, fontWeight: '700', textAlign: 'center', color: 'white', marginVertical: 10}}>Earnings: Rs. {total}</Text>
+        {total !== '' && <View style={styles.earnings}>
+        <MaterialCommunityIcons name="cash" size={32} color="white" />
+        <Text style={styles.earningstext}> Earnings: Rs. {total}</Text>
       </View>}
         {typeof startDate === "string" && typeof endDate === "string" && (
           <View style={{ marginTop: 20 }}>
@@ -199,9 +201,24 @@ const ViewReceipts = (props) => {
                             ))}
                           </View>
                           <View>
-                            <Text style={{ textAlign: "right" }}>
-                              Rs. {r.total}
+                            <View style={styles.serviceRow}>
+                              <Text>Credit</Text>
+                              <Text style={{ textAlign: "right", color: Colors.danger }}>
+                               - Rs. {r.credit}
                             </Text>
+                            </View>
+                            <View style={styles.serviceRow}>
+                              <Text>Paid</Text>
+                            <Text style={{ textAlign: "right", color: Colors.danger  }}>
+                               - Rs. {r.paid}
+                            </Text>
+                            </View>
+                            <View style={styles.serviceRow}>
+                              <Text>Due</Text>
+                            <Text style={{ textAlign: "right" }}>
+                              Rs. {r.due}
+                            </Text>
+                            </View>
                           </View>
                         </View>
                       ))
@@ -302,5 +319,19 @@ const styles = StyleSheet.create({
   datePickerStyle: {
     width: 230,
   },
+  earnings: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Colors.success,
+    paddingVertical: 10,
+    borderRadius: 5,
+  },
+  earningstext: {
+    fontSize: 20, 
+    fontWeight: '700', 
+    textAlign: 'center', 
+    color: 'white'
+  }
 });
 export default ViewReceipts;
